@@ -30,7 +30,7 @@ export const Home: React.FC = () => {
     <main id="home" className="bg-primary-config">
       <div className="container">
         <div className="flex flex-col min-h-screen">
-          {Object.keys(user).length > 0 && !loading && <Navbar />}
+          {Object.keys(user).length > 0 && !loading && <Navbar user={user} />}
           {Object.keys(user).length === 0 && !loading && (
             <>
               <SignInBar />
