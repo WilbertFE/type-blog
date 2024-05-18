@@ -9,7 +9,6 @@ import passport from "passport";
 import session from "express-session";
 import GoogleStrategy from "passport-google-oauth2";
 import { User } from "./models/user.model.js";
-
 const { Strategy } = GoogleStrategy;
 
 dotenv.config();
@@ -48,7 +47,6 @@ passport.use(
     async (request, accessToken, refreshToken, profile, done) => {
       try {
         let user = await User.findOne({ googleId: profile.id });
-
         if (!user) {
           user = await User.create({
             googleId: profile.id,
@@ -57,7 +55,6 @@ passport.use(
             image: profile.photos[0].value,
           });
         }
-        console.log(profile);
         done(null, profile);
       } catch (err) {
         return done(err, null);
@@ -67,7 +64,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser((user, done) => {
