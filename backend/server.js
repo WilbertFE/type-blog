@@ -77,5 +77,6 @@ app.use("/auth/google", googleAuthRoute);
 
 app.listen(port, () => {
   console.log(`Your application is listening on http://localhost:${port}`);
+  console.log("useless commit");
   connectDB();
 });
