@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { SignInBar } from "./home/SignInBar";
 import { Description } from "./home/Description";
-import { Navbar } from "./home/Navbar";
+import { Topbar } from "./home/Topbar";
+import { SearchBar } from "./home/SearchBar";
+import { Menus } from "./home/Menus";
 
 export const Home: React.FC = () => {
   const [user, setUser] = useState({});
@@ -33,9 +35,14 @@ export const Home: React.FC = () => {
           {Object.keys(user).length > 0 && !loading && <Navbar user={user} />}
           {Object.keys(user).length === 0 && !loading && (
             <>
-              <SignInBar />
-              <Description />
+              <Topbar user={user} />
+              <SearchBar />
+              <Menus />
             </>
+            // <>
+            //   <SignInBar />
+            //   <Description />
+            // </>
           )}
         </div>
       </div>
