@@ -5,9 +5,10 @@ import { Description } from "./home/Description";
 import { Topbar } from "./home/Topbar";
 import { SearchBar } from "./home/SearchBar";
 import { Menus } from "./home/Menus";
+import { AllBlogs } from "./home/AllBlogs";
 
 export const Home: React.FC = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const getUserData = async () => {
@@ -16,7 +17,7 @@ export const Home: React.FC = () => {
       credentials: "include",
     });
     if (response.status !== 200) {
-      setUser({});
+      setUser(null);
       setLoading(false);
       return;
     }
@@ -32,17 +33,19 @@ export const Home: React.FC = () => {
     <main id="home" className="bg-primary-config">
       <div className="container">
         <div className="flex flex-col min-h-screen">
-          {Object.keys(user).length > 0 && !loading && <Navbar user={user} />}
-          {Object.keys(user).length === 0 && !loading && (
+          {user && !loading && (
             <>
               <Topbar user={user} />
               <SearchBar />
               <Menus />
+              <AllBlogs />
             </>
-            // <>
-            //   <SignInBar />
-            //   <Description />
-            // </>
+          )}
+          {!user && !loading && (
+            <>
+              <SignInBar />
+              <Description />
+            </>
           )}
         </div>
       </div>
