@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
             <>
               <Topbar user={user} />
               <SearchBar />
-              <Menus />
+              <Menus user={user} />
               <AllBlogs />
             </>
           )}
