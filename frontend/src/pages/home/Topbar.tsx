@@ -11,7 +11,6 @@ interface User {
 }
 
 export function Topbar({ user }: User) {
-  console.log(user.image);
   return (
     <div className="flex items-center justify-between mt-12">
       <div className="flex flex-1 gap-x-2">

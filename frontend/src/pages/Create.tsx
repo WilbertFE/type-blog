@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
 
 export function Create() {
+  const navigate = useNavigate();
   const createBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
@@ -14,7 +16,6 @@ export function Create() {
       ).value,
       content: (target.elements.namedItem("content") as HTMLInputElement).value,
     };
-    console.log(blogData);
     try {
       const response = await fetch("http://localhost:6005/api/blogs", {
         method: "POST",
@@ -24,8 +25,10 @@ export function Create() {
         },
         body: JSON.stringify(blogData),
       });
-      const result = await response.json();
-      console.log(result);
+      if (response.status !== 201) {
+        throw new Error();
+      }
+      navigate("/my-blog");
     } catch (err: unknown) {
       console.log("failed to create blog");
     }

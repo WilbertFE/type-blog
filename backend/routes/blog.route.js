@@ -1,6 +1,7 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
 import { createBlog } from "../controllers/blog.controller.js";
+import { isLoggedIn } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.post(
     }
     res.status(400).json({ errors: errors.array() });
   },
+  isLoggedIn,
   createBlog
 );
 

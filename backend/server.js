@@ -17,7 +17,7 @@ dotenv.config();
 const port = process.env.SERVER_PORT || 6005;
 const app = express();
 
-// konfigurasi middleware
+// middleware configuration
 app.use(
   cors({
     origin: "http://localhost:5173",
