@@ -4,50 +4,90 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export function Create() {
+  const createBlog = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const blogData = {
+      title: (target.elements.namedItem("title") as HTMLInputElement).value,
+      description: (
+        target.elements.namedItem("description") as HTMLInputElement
+      ).value,
+      content: (target.elements.namedItem("content") as HTMLInputElement).value,
+    };
+    console.log(blogData);
+    try {
+      const response = await fetch("http://localhost:6005/api/blogs", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(blogData),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (err: unknown) {
+      console.log("failed to create blog");
+    }
+  };
   return (
     <main id="create" className="bg-primary-config">
       <div className="container">
         <div className="flex flex-wrap min-h-screen">
-          <form className="flex flex-col w-full mt-12 gap-y-6">
+          <form
+            onSubmit={(e) => createBlog(e)}
+            className="flex flex-col w-full mt-12 gap-y-6"
+          >
             <div className="flex flex-col items-center">
               <h1 className="text-3xl font-bold tracking-wide text-light-config">
-                Buat Blog
+                Create Blog
               </h1>
               <span className="text-sm font-medium text-light-config">
-                isi apa saja
+                fill your mind
               </span>
             </div>
             <div className="flex flex-col gap-y-6">
-              <div className="flex flex-col gap-y-2">
+              <div className="flex flex-col">
                 <Label
-                  htmlFor="judul"
+                  htmlFor="title"
                   className="text-xl tracking-wide text-light-config"
                 >
-                  * Judul
+                  * Title
                 </Label>
-                <Input id="judul" name="judul" type="text" />
+                <h3 className="mb-2 text-xs text-slate-300">
+                  Blog title (min. 3 characters)
+                </h3>
+                <Input id="title" name="title" type="text" />
               </div>
-              <div className="flex flex-col gap-y-1">
+              <div className="flex flex-col">
                 <Label
                   htmlFor="description"
                   className="text-xl tracking-wide text-light-config"
                 >
                   * Description
                 </Label>
+                <h3 className="mb-2 text-xs text-slate-300">
+                  Short description (optional)
+                </h3>
                 <Input id="description" name="description" type="text" />
               </div>
-              <div className="flex flex-col gap-y-1">
+              <div className="flex flex-col">
                 <Label
-                  htmlFor="body"
+                  htmlFor="content"
                   className="text-xl tracking-wide text-light-config"
                 >
-                  * Body
+                  * Content
                 </Label>
-                <Textarea placeholder="type your blog here" />
+                <h3 className="mb-2 text-xs text-slate-300">Blog content</h3>
+                <Textarea
+                  name="content"
+                  id="content"
+                  placeholder="type your blog here"
+                />
               </div>
             </div>
             <div className="flex">
-              <Button type="submit">Buat Blog</Button>
+              <Button type="submit">Create Blog</Button>
             </div>
           </form>
         </div>
