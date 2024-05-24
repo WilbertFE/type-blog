@@ -1,16 +1,25 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
 import { LoginForm } from "./login/LoginForm";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Login: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
+
   const checkLogin = async () => {
-    console.log("tes");
+    const response = await fetch("http://localhost:6005/api/auth", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (response.status === 200) {
+      return navigate("/");
+    }
   };
+
   useEffect(() => {
     checkLogin();
-  }, []);
+  });
   return (
     <main id="login" className="bg-primary-config">
       <div className="container">

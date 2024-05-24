@@ -10,6 +10,7 @@ import session from "express-session";
 import GoogleStrategy from "passport-google-oauth2";
 import { User } from "./models/user.model.js";
 import { blogRoute } from "./routes/blog.route.js";
+import { authRoute } from "./routes/auth.route.js";
 const { Strategy } = GoogleStrategy;
 
 dotenv.config();
@@ -77,6 +78,7 @@ passport.deserializeUser((user, done) => {
 app.use("/api/users", userRoute);
 app.use("/auth/google", googleAuthRoute);
 app.use("/api/blogs", blogRoute);
+app.use("/api/auth", authRoute);
 
 app.listen(port, () => {
   console.log(`Your application is listening on http://localhost:${port}`);
