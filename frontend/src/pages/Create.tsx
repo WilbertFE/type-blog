@@ -28,7 +28,7 @@ export function Create() {
       if (response.status !== 201) {
         throw new Error();
       }
-      navigate("/my-blog");
+      navigate("/");
     } catch (err: unknown) {
       console.log("failed to create blog");
     }

@@ -1,29 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-type UserData = {
-  name: string;
+type User = {
+  googleId: string;
+  displayName: string;
   email: string;
+  image: string;
+  username: string;
+  updatedAt: string;
 };
 
-const useUser = () => {
-  const [user, setUser] = useState<UserData | null>(null);
-  const [isError, setIsError] = useState<boolean>(false);
+export const useUser = (googleId: string) => {
+  const [user, setUser] = useState<null | User>(null);
+
+  const getUser = async () => {
+    const response = await fetch(`http://localhost:6005/api/users/${googleId}`);
+    if (response.status !== 200) {
+      return;
+    }
+    const result = await response.json();
+    setUser(result);
+  };
 
   useEffect(() => {
-    const getUser = async () => {
-      const result = await fetch("http://localhost:3000/api/users/me", {
-        method: "GET",
-        credentials: "include",
-      }).then((res) => res.json());
-      if (result.errors) {
-        return setIsError(true);
-      } else {
-        setUser(result);
-      }
-    };
     getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return { user, isError };
-};
 
-export { useUser };
+  return { user };
+};

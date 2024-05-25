@@ -1,34 +1,13 @@
-import React, { useEffect, useState } from "react";
-
 import { SignInBar } from "./home/SignInBar";
 import { Description } from "./home/Description";
 import { Topbar } from "./home/Topbar";
 import { SearchBar } from "./home/SearchBar";
 import { Menus } from "./home/Menus";
 import { Blogs } from "./home/Blogs";
+import { useMe } from "../hooks/useMe.tsx";
 
-export const Home: React.FC = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const getUserData = async () => {
-    const response = await fetch("http://localhost:6005/api/users/me", {
-      method: "GET",
-      credentials: "include",
-    });
-    if (response.status !== 200) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
-    const result = await response.json();
-    setUser(result.user);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getUserData();
-  }, []);
+export function Home() {
+  const { user, loading } = useMe();
   return (
     <main id="home" className="pb-32 bg-primary-config">
       <div className="container">
@@ -51,4 +30,4 @@ export const Home: React.FC = () => {
       </div>
     </main>
   );
-};
+}

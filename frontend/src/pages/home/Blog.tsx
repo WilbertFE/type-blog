@@ -7,42 +7,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import { useUser } from "@/hooks/useUser";
 
-interface Blog {
-  blog: {
-    content: string;
-    title: string;
-    googleId: string;
-    _id: string;
-    description: string;
-  };
-}
-interface User {
+type Blog = {
+  content: string;
+  title: string;
   googleId: string;
-  displayName: string;
-  email: string;
-  image: string;
-  username: string;
-}
+  _id: string;
+  description: string;
+};
 
-export function Blog({ blog }: Blog) {
-  console.log(blog);
-  const [user, setUser] = useState<null | User>(null);
+export function Blog(props: { blog: Blog }) {
+  const { blog } = props;
+  const { user } = useUser(blog.googleId);
 
-  const getUser = async () => {
-    const response = await fetch(
-      `http://localhost:6005/api/users/${blog.googleId}`
-    );
-    if (response.status !== 200) {
-      return;
-    }
-    const result = await response.json();
-    setUser(result);
-  };
-  useEffect(() => {
-    getUser();
-  }, []);
   return (
     <>
       {user && (
@@ -55,7 +33,10 @@ export function Blog({ blog }: Blog) {
               </div>
               <div className="flex items-center">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" alt="user" />
+                  <AvatarImage
+                    src={user.image || "https://github.com/shadcn.png"}
+                    alt="profile"
+                  />
                   <AvatarFallback>TB</AvatarFallback>
                 </Avatar>
               </div>
@@ -65,11 +46,12 @@ export function Blog({ blog }: Blog) {
             <p>{blog.content}</p>
           </CardContent>
           <CardFooter>
-            <p>{user.username}</p>
+            <p className="text-sm text-slate-400">
+              {new Date(user.updatedAt).toDateString()}
+            </p>
           </CardFooter>
         </Card>
       )}
-      ;
     </>
   );
 }
