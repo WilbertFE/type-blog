@@ -2,6 +2,7 @@ import express from "express";
 import { body, validationResult } from "express-validator";
 import { createBlog } from "../controllers/blog.controller.js";
 import { isLoggedIn } from "../controllers/auth.controller.js";
+import { Blog } from "../models/blog.model.js";
 
 const router = express.Router();
 
@@ -31,5 +32,11 @@ router.post(
   isLoggedIn,
   createBlog
 );
+
+router.get("/", async (req, res) => {
+  const blogs = await Blog.find({});
+  console.log(blogs);
+  res.status(200).json(blogs);
+});
 
 export const blogRoute = router;

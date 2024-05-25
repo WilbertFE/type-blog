@@ -5,7 +5,7 @@ import { Description } from "./home/Description";
 import { Topbar } from "./home/Topbar";
 import { SearchBar } from "./home/SearchBar";
 import { Menus } from "./home/Menus";
-import { AllBlogs } from "./home/AllBlogs";
+import { Blogs } from "./home/Blogs";
 
 export const Home: React.FC = () => {
   const [user, setUser] = useState(null);
@@ -30,7 +30,7 @@ export const Home: React.FC = () => {
     getUserData();
   }, []);
   return (
-    <main id="home" className="bg-primary-config">
+    <main id="home" className="pb-32 bg-primary-config">
       <div className="container">
         <div className="flex flex-col min-h-screen">
           {user && !loading && (
@@ -38,7 +38,7 @@ export const Home: React.FC = () => {
               <Topbar user={user} />
               <SearchBar />
               <Menus user={user} />
-              <AllBlogs />
+              <Blogs />
             </>
           )}
           {!user && !loading && (
