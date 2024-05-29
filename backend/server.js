@@ -82,6 +82,6 @@ app.use("/api/auth", authRoute);
 
 app.listen(port, () => {
   console.log(`Your application is listening on http://localhost:${port}`);
-  console.log("H-2");
+  console.log("H-3");
   connectDB();
 });
