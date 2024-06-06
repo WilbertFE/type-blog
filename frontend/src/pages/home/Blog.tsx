@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
+import { Link } from "react-router-dom";
 
 type Blog = {
   content: string;
@@ -33,10 +34,12 @@ export function Blog(props: { blog: Blog }) {
               </div>
               <div className="flex items-center">
                 <Avatar>
-                  <AvatarImage
-                    src={user.image || "https://github.com/shadcn.png"}
-                    alt="profile"
-                  />
+                  <Link to={`/user/${user.username}`}>
+                    <AvatarImage
+                      src={user.image || "https://github.com/shadcn.png"}
+                      alt="profile"
+                    />
+                  </Link>
                   <AvatarFallback>TB</AvatarFallback>
                 </Avatar>
               </div>

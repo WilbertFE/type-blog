@@ -35,7 +35,6 @@ router.post(
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.find({});
-  console.log(blogs);
   res.status(200).json(blogs);
 });
 

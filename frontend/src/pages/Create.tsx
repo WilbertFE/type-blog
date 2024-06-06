@@ -2,43 +2,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { createBlog } from "@/utils/createBlog";
 import { useNavigate } from "react-router-dom";
 
 export function Create() {
   const navigate = useNavigate();
-  const createBlog = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const target = e.target as HTMLFormElement;
-    const blogData = {
-      title: (target.elements.namedItem("title") as HTMLInputElement).value,
-      description: (
-        target.elements.namedItem("description") as HTMLInputElement
-      ).value,
-      content: (target.elements.namedItem("content") as HTMLInputElement).value,
-    };
-    try {
-      const response = await fetch("http://localhost:6005/api/blogs", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(blogData),
-      });
-      if (response.status !== 201) {
-        throw new Error();
-      }
-      navigate("/");
-    } catch (err: unknown) {
-      console.log("failed to create blog");
-    }
+  const handleCreateBlog = (e: React.FormEvent<HTMLFormElement>) => {
+    createBlog(e);
+    navigate("/");
   };
   return (
     <main id="create" className="bg-primary-config">
       <div className="container">
         <div className="flex flex-wrap min-h-screen">
           <form
-            onSubmit={(e) => createBlog(e)}
+            onSubmit={(e) => handleCreateBlog(e)}
             className="flex flex-col w-full mt-12 gap-y-6"
           >
             <div className="flex flex-col items-center">
