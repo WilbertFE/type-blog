@@ -34,7 +34,7 @@ export function Blog(props: { blog: Blog }) {
               </div>
               <div className="flex items-center">
                 <Avatar>
-                  <Link to={`/user/${user.username}`}>
+                  <Link to={`/user/${user.googleId}`}>
                     <AvatarImage
                       src={user.image || "https://github.com/shadcn.png"}
                       alt="profile"

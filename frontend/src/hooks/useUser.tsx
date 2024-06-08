@@ -9,16 +9,19 @@ type User = {
   updatedAt: string;
 };
 
-export const useUser = (googleId: string) => {
+export const useUser = (googleId: string | undefined) => {
   const [user, setUser] = useState<null | User>(null);
+  const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:6005/api/users/${googleId}`);
     if (response.status !== 200) {
+      setLoading(false);
       return;
     }
     const result = await response.json();
     setUser(result);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -26,5 +29,5 @@ export const useUser = (googleId: string) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { user };
+  return { user, loading };
 };

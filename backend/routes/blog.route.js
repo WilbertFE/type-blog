@@ -38,4 +38,10 @@ router.get("/", async (req, res) => {
   res.status(200).json(blogs);
 });
 
+router.get("/:googleId", async (req, res) => {
+  const { googleId } = req.params;
+  const blogs = await Blog.find({ googleId });
+  res.status(200).json(blogs);
+});
+
 export const blogRoute = router;

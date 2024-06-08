@@ -42,11 +42,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/user/:username",
+    path: "/user/:googleId",
     element: <App />,
     children: [
       {
-        path: "/user/:username",
+        path: "/user/:googleId",
         element: <Profile />,
       },
     ],
