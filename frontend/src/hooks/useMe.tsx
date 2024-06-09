@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 
+type User = {
+  googleId: string;
+  displayName: string;
+  email: string;
+  image: string;
+  username: string;
+  updatedAt: string;
+};
+
 export const useMe = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
 
   const getUserData = async () => {

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog } from "@/utils/createBlog";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Create() {
@@ -11,6 +12,17 @@ export function Create() {
     createBlog(e);
     navigate("/");
   };
+  const isLogin = async () => {
+    const response = await fetch("http://localhost:6005/api/auth");
+    if (response.status !== 200) {
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    isLogin();
+  }, []);
+
   return (
     <main id="create" className="bg-primary-config">
       <div className="container">

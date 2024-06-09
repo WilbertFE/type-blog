@@ -6,18 +6,36 @@ import { TbError404 } from "react-icons/tb";
 import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
 import { Blog } from "./home/Blog";
+import { useMe } from "@/hooks/useMe";
+import { useEffect, useState } from "react";
 
 export function Profile() {
   const { googleId } = useParams();
   const { user, loading } = useUser(googleId);
   const { blogs } = useUserBlogs(googleId);
+  const userMe = useMe().user;
+
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    if (googleId && userMe) {
+      if (googleId === userMe.googleId) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
+    } else {
+      setIsOwner(false);
+    }
+  }, [googleId, userMe]);
+
   return (
-    <main id="profile" className="bg-primary-config">
+    <main id="profile" className="pb-12 bg-primary-config">
       <div className="container px-2">
         <div className="flex flex-col min-h-screen gap-y-4">
           {user && !loading && (
             <>
-              <Banner user={user} username={user.username} />
+              <Banner isOwner={isOwner} user={user} />
               <CallToAction />
               <Bio />
               {blogs && blogs.length > 0 && (
@@ -25,7 +43,7 @@ export function Profile() {
                   <h1 className="mb-8 text-xl font-bold tracking-wide text-center text-slate-500">
                     -- Blog --
                   </h1>
-                  <div className="flex flex-col w-full">
+                  <div className="flex flex-col w-full gap-y-4">
                     {blogs.map((blog) => (
                       <Blog key={blog._id} blog={blog} />
                     ))}
