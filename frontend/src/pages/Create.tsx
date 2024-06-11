@@ -15,8 +15,9 @@ export function Create() {
   const isLogin = async () => {
     const response = await fetch("http://localhost:6005/api/auth");
     if (response.status !== 200) {
-      navigate("/login");
+      return console.log(response.status);
     }
+    console.log(response.status);
   };
 
   useEffect(() => {

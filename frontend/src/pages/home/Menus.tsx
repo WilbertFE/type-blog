@@ -18,12 +18,12 @@ export function Menus(props: { user: User }) {
           Create Blog
         </Badge>
       </Link>
-      <Link to={`/user/${user.googleId}/blogs`}>
+      <Link to={`/user/${user.username}/blogs`}>
         <Badge variant="default" className="px-4 py-2 bg-secondary-config">
           My Blog
         </Badge>
       </Link>
-      <Link to={`/user/${user.googleId}`}>
+      <Link to={`/user/${user.username}`}>
         <Badge variant="default" className="px-4 py-2 bg-secondary-config">
           Profile
         </Badge>

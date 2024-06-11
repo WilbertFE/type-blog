@@ -5,7 +5,7 @@ const blogSchema = new mongoose.Schema(
     title: String,
     description: String,
     content: String,
-    googleId: String,
+    creator: String,
   },
   {
     timestamps: true,

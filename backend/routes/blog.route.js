@@ -38,9 +38,12 @@ router.get("/", async (req, res) => {
   res.status(200).json(blogs);
 });
 
-router.get("/:googleId", async (req, res) => {
-  const { googleId } = req.params;
-  const blogs = await Blog.find({ googleId });
+router.get("/:username", async (req, res) => {
+  const { username } = req.params;
+  const blogs = await Blog.find({ creator: username });
+  if (!blogs) {
+    return res.sendStatus(404);
+  }
   res.status(200).json(blogs);
 });
 

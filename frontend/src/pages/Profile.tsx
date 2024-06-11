@@ -10,16 +10,16 @@ import { useMe } from "@/hooks/useMe";
 import { useEffect, useState } from "react";
 
 export function Profile() {
-  const { googleId } = useParams();
-  const { user, loading } = useUser(googleId);
-  const { blogs } = useUserBlogs(googleId);
+  const { username } = useParams();
+  const { user, loading } = useUser(username);
+  const { blogs } = useUserBlogs(username);
   const userMe = useMe().user;
 
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
-    if (googleId && userMe) {
-      if (googleId === userMe.googleId) {
+    if (username && userMe) {
+      if (username === userMe.username) {
         setIsOwner(true);
       } else {
         setIsOwner(false);
@@ -27,7 +27,7 @@ export function Profile() {
     } else {
       setIsOwner(false);
     }
-  }, [googleId, userMe]);
+  }, [username, userMe]);
 
   return (
     <main id="profile" className="pb-12 bg-primary-config">

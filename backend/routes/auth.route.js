@@ -1,12 +1,9 @@
 import express from "express";
+import { isLoggedIn } from "../controllers/auth.controller.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  const isLogin = req.user ? true : false;
-  if (!isLogin) {
-    return res.sendStatus(401);
-  }
+router.get("/", isLoggedIn, (req, res) => {
   res.sendStatus(200);
 });
 

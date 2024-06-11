@@ -1,8 +1,8 @@
 import { User } from "../models/user.model.js";
 
 const getMyData = async (req, res) => {
-  const userId = req.user;
-  const user = await User.findOne({ googleId: userId });
+  const { googleId } = req.user;
+  const user = await User.findOne({ googleId });
   if (!user) {
     return res.sendStatus(403);
   }

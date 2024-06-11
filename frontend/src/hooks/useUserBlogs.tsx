@@ -8,11 +8,11 @@ type Blog = {
   description: string;
 };
 
-export const useUserBlogs = (googleId: string | undefined) => {
+export const useUserBlogs = (username: string | undefined) => {
   const [blogs, setBlogs] = useState<null | Blog[]>(null);
 
   const getBlogs = async () => {
-    const response = await fetch(`http://localhost:6005/api/blogs/${googleId}`);
+    const response = await fetch(`http://localhost:6005/api/blogs/${username}`);
     if (response.status !== 200) {
       return;
     }

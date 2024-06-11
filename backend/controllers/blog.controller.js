@@ -2,12 +2,13 @@ import { Blog } from "../models/blog.model.js";
 
 const createBlog = async (req, res) => {
   const { title, description, content } = req.body;
-  const googleId = req.user;
+  const { username } = req.user;
+
   const blog = await Blog.create({
     title,
     description,
     content,
-    googleId,
+    creator: username,
   });
   res.sendStatus(201);
 };

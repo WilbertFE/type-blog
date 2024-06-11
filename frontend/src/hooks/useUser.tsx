@@ -9,12 +9,12 @@ type User = {
   updatedAt: string;
 };
 
-export const useUser = (googleId: string | undefined) => {
+export const useUser = (username: string | undefined) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:6005/api/users/${googleId}`);
+    const response = await fetch(`http://localhost:6005/api/users/${username}`);
     if (response.status !== 200) {
       setLoading(false);
       return;
