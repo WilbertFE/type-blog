@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
-
-type Blog = {
-  content: string;
-  title: string;
-  googleId: string;
-  _id: string;
-  description: string;
-};
+import { BlogInterface } from "@/types";
 
 export const useUserBlogs = (username: string | undefined) => {
-  const [blogs, setBlogs] = useState<null | Blog[]>(null);
+  const [blogs, setBlogs] = useState<null | BlogInterface[]>(null);
 
   const getBlogs = async () => {
     const response = await fetch(`http://localhost:6005/api/blogs/${username}`);

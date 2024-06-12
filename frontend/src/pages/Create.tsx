@@ -13,11 +13,13 @@ export function Create() {
     navigate("/");
   };
   const isLogin = async () => {
-    const response = await fetch("http://localhost:6005/api/auth");
+    const response = await fetch("http://localhost:6005/api/auth", {
+      method: "GET",
+      credentials: "include",
+    });
     if (response.status !== 200) {
-      return console.log(response.status);
+      return navigate("/login");
     }
-    console.log(response.status);
   };
 
   useEffect(() => {

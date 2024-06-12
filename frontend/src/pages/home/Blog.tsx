@@ -9,18 +9,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
+import { BlogInterface } from "@/types";
 
-type Blog = {
-  content: string;
-  title: string;
-  googleId: string;
-  _id: string;
-  description: string;
-};
-
-export function Blog(props: { blog: Blog }) {
+export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
-  const { user } = useUser(blog.googleId);
+  const { user } = useUser(blog.creator);
 
   return (
     <>
@@ -34,7 +27,7 @@ export function Blog(props: { blog: Blog }) {
               </div>
               <div className="flex items-center">
                 <Avatar>
-                  <Link to={`/user/${user.googleId}`}>
+                  <Link to={`/user/${user.username}`}>
                     <AvatarImage
                       src={user.image || "https://github.com/shadcn.png"}
                       alt="profile"

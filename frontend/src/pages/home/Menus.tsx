@@ -1,15 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { UserInterface } from "@/types";
 
-type User = {
-  googleId: string;
-  displayName: string;
-  email: string;
-  image: string;
-  username: string;
-};
-
-export function Menus(props: { user: User }) {
+export function Menus(props: { user: UserInterface }) {
   const { user } = props;
   return (
     <div className="flex justify-between mt-8">

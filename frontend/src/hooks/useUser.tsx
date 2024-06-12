@@ -1,20 +1,15 @@
 import { useState, useEffect } from "react";
-
-type User = {
-  googleId: string;
-  displayName: string;
-  email: string;
-  image: string;
-  username: string;
-  updatedAt: string;
-};
+import { UserInterface } from "@/types";
 
 export const useUser = (username: string | undefined) => {
-  const [user, setUser] = useState<null | User>(null);
+  const [user, setUser] = useState<null | UserInterface>(null);
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:6005/api/users/${username}`);
+    const response = await fetch(
+      `http://localhost:6005/api/users/${username}`,
+      { method: "GET", credentials: "include" }
+    );
     if (response.status !== 200) {
       setLoading(false);
       return;
@@ -25,9 +20,10 @@ export const useUser = (username: string | undefined) => {
   };
 
   useEffect(() => {
-    getUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (username) {
+      getUser();
+    }
+  }, [username]);
 
   return { user, loading };
 };

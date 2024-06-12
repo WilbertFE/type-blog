@@ -1,15 +1,8 @@
 import { IoNotificationsOutline } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserInterface } from "@/types";
 
-type User = {
-  googleId: string;
-  displayName: string;
-  email: string;
-  image: string;
-  username: string;
-};
-
-export function Topbar(props: { user: User }) {
+export function Topbar(props: { user: UserInterface }) {
   const { user } = props;
   return (
     <div className="flex items-center justify-between mt-12">

@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
-
-type User = {
-  googleId: string;
-  displayName: string;
-  email: string;
-  image: string;
-  username: string;
-  updatedAt: string;
-};
+import { UserInterface } from "@/types";
 
 export const useMe = () => {
-  const [user, setUser] = useState<null | User>(null);
+  const [user, setUser] = useState<null | UserInterface>(null);
   const [loading, setLoading] = useState(true);
 
   const getUserData = async () => {

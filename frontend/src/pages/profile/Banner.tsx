@@ -1,18 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CiSettings } from "react-icons/ci";
 import { Link } from "react-router-dom";
-
-type User = {
-  googleId: string;
-  displayName: string;
-  email: string;
-  image: string;
-  username: string;
-  updatedAt: string;
-};
+import { UserInterface } from "@/types";
 
 interface BannerProps {
-  user: User;
+  user: UserInterface;
   isOwner: boolean;
 }
 
@@ -34,7 +26,7 @@ export function Banner({ user, isOwner }: BannerProps) {
       </div>
       {isOwner && (
         <div>
-          <Link to={`/user/${user.googleId}/settings`}>
+          <Link to={`/user/${user.username}/settings`}>
             <CiSettings
               className="absolute right-0 top-1 text-light-config"
               size={32}
