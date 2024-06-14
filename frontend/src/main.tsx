@@ -8,6 +8,7 @@ import { Login } from "./pages/Login.tsx";
 import { ValidationContextProvider } from "./contexts/validation.context.tsx";
 import { Create } from "./pages/Create.tsx";
 import { Profile } from "./pages/Profile.tsx";
+import { Settings } from "./pages/Settings.tsx";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,16 @@ const router = createBrowserRouter([
       {
         path: "/user/:username",
         element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/user/:username/settings",
+    element: <App />,
+    children: [
+      {
+        path: "/user/:username/settings",
+        element: <Settings />,
       },
     ],
   },

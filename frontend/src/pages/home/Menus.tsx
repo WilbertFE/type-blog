@@ -11,9 +11,9 @@ export function Menus(props: { user: UserInterface }) {
           Create Blog
         </Badge>
       </Link>
-      <Link to={`/user/${user.username}/blogs`}>
+      <Link to={`/user/${user.username}/settings`}>
         <Badge variant="default" className="px-4 py-2 bg-secondary-config">
-          My Blog
+          Settings
         </Badge>
       </Link>
       <Link to={`/user/${user.username}`}>

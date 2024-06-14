@@ -3,15 +3,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog } from "@/utils/createBlog";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CgDanger } from "react-icons/cg";
+
+interface BlogError {
+  location: string;
+  msg: string;
+  path: string;
+  type: string;
+  value: string;
+}
 
 export function Create() {
   const navigate = useNavigate();
+  const [errors, setErrors] = useState<null | BlogError[]>(null);
   const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     const result = await createBlog(e);
     if (result.data) {
       return navigate("/");
+    }
+    if (result.errors) {
+      const newErrors = result.errors.filter(
+        (err: BlogError) => err.msg !== "null"
+      );
+      return setErrors(newErrors);
     }
   };
   const isLogin = async () => {
@@ -44,6 +61,23 @@ export function Create() {
                 fill your mind
               </span>
             </div>
+            {errors && (
+              <div>
+                <Alert variant="destructive">
+                  <CgDanger size={20} />
+                  <AlertTitle>Validation Errors !</AlertTitle>
+                  <AlertDescription>
+                    <ul className="list-disc list-inside">
+                      {errors.map((err, i) => (
+                        <li className="list-item" key={i}>
+                          {err.msg}
+                        </li>
+                      ))}
+                    </ul>
+                  </AlertDescription>
+                </Alert>
+              </div>
+            )}
             <div className="flex flex-col gap-y-6">
               <div className="flex flex-col">
                 <Label
