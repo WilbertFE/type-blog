@@ -13,7 +13,7 @@ export const useBlogs = () => {
       return setBlogs(null);
     }
     const result = await response.json();
-    setBlogs(result);
+    setBlogs(result.data);
   };
 
   useEffect(() => {

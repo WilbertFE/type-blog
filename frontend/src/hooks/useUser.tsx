@@ -15,7 +15,7 @@ export const useUser = (username: string | undefined) => {
       return;
     }
     const result = await response.json();
-    setUser(result);
+    setUser(result.data);
     setLoading(false);
   };
 

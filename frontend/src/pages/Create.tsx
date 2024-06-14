@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 
 export function Create() {
   const navigate = useNavigate();
-  const handleCreateBlog = (e: React.FormEvent<HTMLFormElement>) => {
-    createBlog(e);
-    navigate("/");
+  const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
+    const result = await createBlog(e);
+    if (result.data) {
+      return navigate("/");
+    }
   };
   const isLogin = async () => {
     const response = await fetch("http://localhost:6005/api/auth", {

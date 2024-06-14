@@ -16,7 +16,7 @@ export const useMe = () => {
       return;
     }
     const result = await response.json();
-    setUser(result.user);
+    setUser(result.data);
     setLoading(false);
   };
 

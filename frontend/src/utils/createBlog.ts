@@ -16,9 +16,8 @@ export const createBlog = async (e: React.FormEvent<HTMLFormElement>) => {
       },
       body: JSON.stringify(blogData),
     });
-    if (response.status !== 201) {
-      throw new Error();
-    }
+    const result = await response.json();
+    return result;
   } catch (err: unknown) {
     console.log("failed to create blog");
   }

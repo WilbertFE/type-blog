@@ -10,7 +10,8 @@ const createBlog = async (req, res) => {
     content,
     creator: username,
   });
-  res.sendStatus(201);
+
+  res.status(201).json({ data: blog });
 };
 
 export { createBlog };

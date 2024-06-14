@@ -6,7 +6,7 @@ const getMyData = async (req, res) => {
   if (!user) {
     return res.sendStatus(403);
   }
-  res.status(200).json({ user: user });
+  res.status(200).json({ data: user });
 };
 
 export { getMyData };

@@ -35,7 +35,7 @@ router.post(
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.find({});
-  res.status(200).json(blogs);
+  res.status(200).json({ data: blogs });
 });
 
 router.get("/:username", async (req, res) => {
@@ -44,7 +44,7 @@ router.get("/:username", async (req, res) => {
   if (!blogs) {
     return res.sendStatus(404);
   }
-  res.status(200).json(blogs);
+  res.status(200).json({ data: blogs });
 });
 
 export const blogRoute = router;
