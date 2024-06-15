@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LuPencil } from "react-icons/lu";
+import { PencilLine } from "lucide-react";
 
 export function MyProfile() {
   return (
     <div className="flex items-center p-6 rounded-lg gap-x-4 bg-slate-700">
       <div>
-        <Avatar className="w-16 h-16 border-2 border-accent-config">
+        <Avatar className="border-2 w-14 h-14 border-accent-config">
           <AvatarImage src={"https://github.com/shadcn.png"} alt="profile" />
           <AvatarFallback>TB</AvatarFallback>
         </Avatar>
@@ -17,8 +17,8 @@ export function MyProfile() {
           </h3>
           <span className="text-light-config">wilbert@gmail.com</span>
         </div>
-        <div>
-          <LuPencil size={24} className="text-light-config" />
+        <div className="text-light-config">
+          <PencilLine size={24} />
         </div>
       </div>
     </div>

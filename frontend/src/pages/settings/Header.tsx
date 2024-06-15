@@ -1,16 +1,16 @@
-import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { CircleArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function Header() {
   return (
     <div className="flex items-center pt-8">
-      <div>
+      <div className="text-light-config">
         <Link to="/">
-          <IoArrowBackCircleOutline size={40} className="text-light-config" />
+          <CircleArrowLeft size={40} />
         </Link>
       </div>
       <div className="flex-1 -ml-4 text-center">
-        <h1 className="tracking-wider text-2xlfont-bold text-light-config">
+        <h1 className="text-2xl font-bold tracking-wider text-light-config">
           My Account
         </h1>
       </div>

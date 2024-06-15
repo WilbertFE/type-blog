@@ -1,6 +1,6 @@
-import { IoNotificationsOutline } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserInterface } from "@/types";
+import { Bell } from "lucide-react";
 
 export function Topbar(props: { user: UserInterface }) {
   const { user } = props;
@@ -23,8 +23,8 @@ export function Topbar(props: { user: UserInterface }) {
           </h3>
         </div>
       </div>
-      <div>
-        <IoNotificationsOutline size={32} className="text-light-config" />
+      <div className="text-light-config">
+        <Bell size={32} />
       </div>
     </div>
   );

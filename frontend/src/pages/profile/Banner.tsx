@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CiSettings } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { UserInterface } from "@/types";
+import { Settings } from "lucide-react";
 
 interface BannerProps {
   user: UserInterface;
@@ -25,12 +25,9 @@ export function Banner({ user, isOwner }: BannerProps) {
         </Avatar>
       </div>
       {isOwner && (
-        <div>
+        <div className="absolute right-0 top-3 text-light-config">
           <Link to={`/user/${user.username}/settings`}>
-            <CiSettings
-              className="absolute right-0 top-1 text-light-config"
-              size={32}
-            />
+            <Settings size={32} />
           </Link>
         </div>
       )}
