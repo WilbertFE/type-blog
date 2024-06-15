@@ -6,7 +6,7 @@ import { createBlog } from "@/utils/createBlog";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CgDanger } from "react-icons/cg";
+import { CircleAlert } from "lucide-react";
 
 interface BlogError {
   location: string;
@@ -64,7 +64,7 @@ export function Create() {
             {errors && (
               <div>
                 <Alert variant="destructive">
-                  <CgDanger size={20} />
+                  <CircleAlert size={20} />
                   <AlertTitle>Validation Errors !</AlertTitle>
                   <AlertDescription>
                     <ul className="list-disc list-inside">

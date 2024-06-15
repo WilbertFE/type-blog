@@ -12,12 +12,14 @@ export function MyProfile() {
       </div>
       <div className="flex items-center flex-1">
         <div className="flex-1">
-          <h3 className="text-xl font-bold tracking-wider text-light-config">
-            Wilbert
+          <h3 className="font-bold tracking-wider line-clamp-1 text-light-config">
+            Wilbert Bernardi
           </h3>
-          <span className="text-light-config">wilbert@gmail.com</span>
+          <span className="text-sm text-light-config line-clamp-1">
+            wilbert@gmail.com
+          </span>
         </div>
-        <div className="text-light-config">
+        <div className="cursor-pointer text-light-config">
           <PencilLine size={24} />
         </div>
       </div>
