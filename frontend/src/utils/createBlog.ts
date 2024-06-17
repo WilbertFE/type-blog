@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const createBlog = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   const target = e.target as HTMLFormElement;
@@ -8,17 +10,14 @@ export const createBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     content: (target.elements.namedItem("content") as HTMLInputElement).value,
   };
   try {
-    const response = await fetch("http://localhost:6005/api/blogs", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(blogData),
-    });
-    const result = await response.json();
+    const response = await axios.post(
+      "http://localhost:6005/api/blogs",
+      JSON.stringify(blogData),
+      { withCredentials: true, headers: { "Content-Type": "application/json" } }
+    );
+    const result = response.data;
     return result;
   } catch (err: unknown) {
-    console.log("failed to create blog");
+    return err;
   }
 };

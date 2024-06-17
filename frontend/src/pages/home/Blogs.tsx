@@ -1,4 +1,4 @@
-import { useBlogs } from "@/hooks/useBlogs.tsx";
+import { useBlogs } from "@/hooks/useBlogs.ts";
 import { Blog } from "./Blog.tsx";
 
 export function Blogs() {

@@ -14,7 +14,7 @@ route.get("/:username", async (req, res) => {
   if (!user) {
     return res.sendStatus(404);
   }
-  res.status(200).json({ data: user });
+  res.status(200).json(user);
 });
 
 export const userRoute = route;

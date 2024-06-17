@@ -7,27 +7,14 @@ import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
 import { Blog } from "./home/Blog";
 import { useMe } from "@/hooks/useMe";
-import { useEffect, useState } from "react";
+import { useOwner } from "@/hooks/useOwner";
 
 export function Profile() {
   const { username } = useParams();
   const { user, loading } = useUser(username);
   const { blogs } = useUserBlogs(username);
   const userMe = useMe().user;
-
-  const [isOwner, setIsOwner] = useState(false);
-
-  useEffect(() => {
-    if (username && userMe) {
-      if (username === userMe.username) {
-        setIsOwner(true);
-      } else {
-        setIsOwner(false);
-      }
-    } else {
-      setIsOwner(false);
-    }
-  }, [username, userMe]);
+  const { owner } = useOwner(username, userMe);
 
   return (
     <main id="profile" className="pb-12 bg-primary-config">
@@ -35,7 +22,7 @@ export function Profile() {
         <div className="flex flex-col min-h-screen gap-y-4">
           {user && !loading && (
             <>
-              <Banner isOwner={isOwner} user={user} />
+              <Banner owner={owner} user={user} />
               <CallToAction />
               <Bio />
               {blogs && blogs.length > 0 && (

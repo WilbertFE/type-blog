@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { BlogInterface } from "@/types";
+import axios from "axios";
 
 export const useBlogs = () => {
   const [blogs, setBlogs] = useState<null | BlogInterface[]>(null);
 
   const getBlogs = async () => {
-    const response = await fetch("http://localhost:6005/api/blogs", {
-      method: "GET",
-      credentials: "include",
-    });
-    if (response.status !== 200) {
-      return setBlogs(null);
+    try {
+      const response = await axios.get("http://localhost:6005/api/blogs", {
+        withCredentials: true,
+      });
+      const result = response.data;
+      setBlogs(result);
+    } catch (err: unknown) {
+      console.error("Failed to get blogs data");
     }
-    const result = await response.json();
-    setBlogs(result.data);
   };
 
   useEffect(() => {

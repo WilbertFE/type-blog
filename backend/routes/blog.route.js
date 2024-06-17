@@ -35,16 +35,16 @@ router.post(
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.find({});
-  res.status(200).json({ data: blogs });
+  res.status(200).json(blogs);
 });
 
 router.get("/:username", async (req, res) => {
   const { username } = req.params;
   const blogs = await Blog.find({ creator: username });
   if (!blogs) {
-    return res.sendStatus(404);
+    return res.status(404).json({ errors: [{ msg: "Couldnt find the blog" }] });
   }
-  res.status(200).json({ data: blogs });
+  res.status(200).json(blogs);
 });
 
 export const blogRoute = router;

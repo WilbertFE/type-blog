@@ -3,47 +3,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog } from "@/utils/createBlog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleAlert } from "lucide-react";
-
-interface BlogError {
-  location: string;
-  msg: string;
-  path: string;
-  type: string;
-  value: string;
-}
+import { useLogin } from "@/hooks/useLogin";
+import { BlogError } from "@/types/BlogError";
 
 export function Create() {
   const navigate = useNavigate();
+  const { login } = useLogin();
   const [errors, setErrors] = useState<null | BlogError[]>(null);
   const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     const result = await createBlog(e);
-    if (result.data) {
-      return navigate("/");
-    }
-    if (result.errors) {
-      const newErrors = result.errors.filter(
+    if (result.response) {
+      const filteredErrors = result.response.data.errors.filter(
         (err: BlogError) => err.msg !== "null"
       );
-      return setErrors(newErrors);
+      return setErrors(filteredErrors);
     }
-  };
-  const isLogin = async () => {
-    const response = await fetch("http://localhost:6005/api/auth", {
-      method: "GET",
-      credentials: "include",
-    });
-    if (response.status !== 200) {
-      return navigate("/login");
-    }
+    navigate("/");
   };
 
-  useEffect(() => {
-    isLogin();
-  }, []);
+  // supaya tidak error
+  console.log(login);
 
   return (
     <main id="create" className="bg-primary-config">

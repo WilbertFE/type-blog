@@ -5,10 +5,10 @@ import { Settings } from "lucide-react";
 
 interface BannerProps {
   user: UserInterface;
-  isOwner: boolean;
+  owner: boolean;
 }
 
-export function Banner({ user, isOwner }: BannerProps) {
+export function Banner({ user, owner }: BannerProps) {
   return (
     <div className="relative">
       <div className="bg-secondary-config/10 h-[120px] rounded-lg"></div>
@@ -24,7 +24,7 @@ export function Banner({ user, isOwner }: BannerProps) {
           <AvatarFallback>TB</AvatarFallback>
         </Avatar>
       </div>
-      {isOwner && (
+      {owner && (
         <div className="absolute right-0 top-3 text-light-config">
           <Link to={`/user/${user.username}/settings`}>
             <Settings size={32} />

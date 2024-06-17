@@ -4,7 +4,7 @@ import { Topbar } from "./home/Topbar";
 import { SearchBar } from "./home/SearchBar";
 import { Menus } from "./home/Menus";
 import { Blogs } from "./home/Blogs";
-import { useMe } from "../hooks/useMe.tsx";
+import { useMe } from "../hooks/useMe.ts";
 
 export function Home() {
   const { user, loading } = useMe();
