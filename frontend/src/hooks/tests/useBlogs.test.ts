@@ -1,43 +1,33 @@
-// import { renderHook } from "@testing-library/react";
-// import { setupServer } from "msw/node";
-// import { http, HttpResponse } from "msw";
-// import { useBlogs } from "../useBlogs";
+import { renderHook, waitFor } from "@testing-library/react";
+import { useBlogs } from "../useBlogs.ts";
+import nock from "nock";
 
-// const handlers = [
-//   // Intercept "GET https://example.com/user" requests...
-//   http.get("http://localhost:6005/api/blogs", () => {
-//     // ...and respond to them using this JSON response.
-//     return HttpResponse.json([
-//       {
-//         googleId: "123",
-//         creator: "wilbert",
-//         title: "My first blog",
-//         content: "test",
-//       },
-//     ]);
-//   }),
-// ];
+describe("unit test useBlogs hooks", () => {
+  it("should return blogs data", async () => {
+    const plainData = [
+      { title: "My first blog", creator: "user1718101209813", content: "tes" },
+    ];
+    nock("http://localhost:6005")
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/api/blogs")
+      .reply(200, plainData);
 
-// const server = SetupServerApi(...handlers);
+    const { result } = renderHook(() => useBlogs());
 
-// // server.listen();
-
-// beforeAll(() => server.listen());
-// afterEach(() => server.resetHandlers());
-// afterAll(() => server.close());
-
-// describe("testing useBlogs hooks", async () => {
-//   const { result, waitForNextUpdate } = renderHook(() => useBlogs());
-//   const fetchResult = [
-//     {
-//       googleId: "123",
-//       creator: "wilbert",
-//       title: "My first blog",
-//       content: "test",
-//     },
-//   ];
-
-//   await waitForNextUpdate();
-
-//   expect(result.current).toEqual(fetchResult);
-// });
+    await waitFor(() => expect(result.current.blogs).toEqual(plainData));
+  });
+  it("should return null when errors", async () => {
+    nock("http://localhost:6005")
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "access-control-allow-credentials": "true",
+      })
+      .get("/api/blogs")
+      .reply(400);
+    const { result } = renderHook(() => useBlogs());
+    await waitFor(() => expect(result.current.blogs).toBe(null));
+  });
+});

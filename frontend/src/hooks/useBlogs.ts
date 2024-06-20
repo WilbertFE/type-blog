@@ -7,9 +7,7 @@ export const useBlogs = () => {
 
   const getBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:6005/api/blogs", {
-        withCredentials: true,
-      });
+      const response = await axios.get("http://localhost:6005/api/blogs");
       const result = response.data;
       setBlogs(result);
     } catch (err: unknown) {
