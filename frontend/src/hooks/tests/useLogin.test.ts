@@ -14,6 +14,7 @@ describe("unit test useLogin", () => {
     const { result } = renderHook(() => useLogin());
     await waitFor(() => {
       expect(result.current.login).toBe(true);
+      expect(result.current.loading).toBe(false);
     });
   });
   it("should be false", async () => {
@@ -27,6 +28,7 @@ describe("unit test useLogin", () => {
     const { result } = renderHook(() => useLogin());
     await waitFor(() => {
       expect(result.current.login).toBe(false);
+      expect(result.current.loading).toBe(false);
     });
   });
 });

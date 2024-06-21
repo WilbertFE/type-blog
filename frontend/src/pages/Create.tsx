@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlog } from "@/utils/createBlog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleAlert } from "lucide-react";
@@ -12,7 +12,7 @@ import { BlogError } from "@/types/BlogError";
 
 export function Create() {
   const navigate = useNavigate();
-  const { login } = useLogin();
+  const { login, loading } = useLogin();
   const [errors, setErrors] = useState<null | BlogError[]>(null);
   const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     const result = await createBlog(e);
@@ -25,8 +25,11 @@ export function Create() {
     navigate("/");
   };
 
-  // supaya tidak error
-  console.log(login);
+  useEffect(() => {
+    if (!login && !loading) {
+      navigate("/login");
+    }
+  }, [login, navigate, loading]);
 
   return (
     <main id="create" className="bg-primary-config">

@@ -22,12 +22,10 @@ describe("unit test useUser", () => {
       expect(result.current.loading).toBe(false);
     });
   });
-  it("should be null when the parameter is undefined", async () => {
+  it("should be null when the parameter is falsy", async () => {
     const { result } = renderHook(() => useUser(undefined));
-    await waitFor(() => {
-      expect(result.current.user).toBe(null);
-      expect(result.current.loading).toBe(false);
-    });
+    expect(result.current.user).toBe(null);
+    expect(result.current.loading).toBe(false);
   });
   it("should be null when user didnt find", async () => {
     nock("http://localhost:6005")

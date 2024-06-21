@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 export function useLogin() {
   const [login, setLogin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const checkLogin = async () => {
     try {
@@ -10,7 +11,9 @@ export function useLogin() {
         withCredentials: true,
       });
       setLogin(true);
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       return console.error("Authentication Failed");
     }
   };
@@ -19,5 +22,5 @@ export function useLogin() {
     checkLogin();
   }, []);
 
-  return { login };
+  return { login, loading };
 }

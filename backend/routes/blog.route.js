@@ -1,8 +1,11 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
-import { createBlog } from "../controllers/blog.controller.js";
+import {
+  createBlog,
+  getAllBlogs,
+  getUserBlogs,
+} from "../controllers/blog.controller.js";
 import { isLoggedIn } from "../controllers/auth.controller.js";
-import { Blog } from "../models/blog.model.js";
 
 const router = express.Router();
 
@@ -33,18 +36,8 @@ router.post(
   createBlog
 );
 
-router.get("/", async (req, res) => {
-  const blogs = await Blog.find({});
-  res.status(200).json(blogs);
-});
+router.get("/", getAllBlogs);
 
-router.get("/:username", async (req, res) => {
-  const { username } = req.params;
-  const blogs = await Blog.find({ creator: username });
-  if (!blogs) {
-    return res.status(404).json({ errors: [{ msg: "Couldnt find the blog" }] });
-  }
-  res.status(200).json(blogs);
-});
+router.get("/:username", getUserBlogs);
 
 export const blogRoute = router;

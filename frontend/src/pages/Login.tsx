@@ -4,14 +4,14 @@ import { useLogin } from "@/hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 
 export const Login: React.FC = () => {
-  const { login } = useLogin();
+  const { login, loading } = useLogin();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (login) {
+    if (login && !loading) {
       navigate("/");
     }
-  }, [login, navigate]);
+  }, [login, navigate, loading]);
 
   return (
     <main id="login" className="bg-primary-config">
