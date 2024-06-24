@@ -20,7 +20,7 @@ export function Banner({ user, owner }: BannerProps) {
       </div>
       <div>
         <Avatar className="absolute w-24 h-24 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src={user.image || "https://github.com/shadcn.png"} />
           <AvatarFallback>TB</AvatarFallback>
         </Avatar>
       </div>
