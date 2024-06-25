@@ -26,7 +26,7 @@ export function Blog(props: { blog: BlogInterface }) {
                 <CardDescription>{blog.description}</CardDescription>
               </div>
               <div className="flex items-center">
-                <Avatar>
+                <Avatar className="border border-muted-foreground">
                   <Link to={`/user/${user.username}`}>
                     <AvatarImage
                       src={user.image || "https://github.com/shadcn.png"}
@@ -43,7 +43,7 @@ export function Blog(props: { blog: BlogInterface }) {
           </CardContent>
           <CardFooter>
             <p className="text-sm text-slate-400">
-              {new Date(user.updatedAt).toDateString()}
+              {new Date(user.updatedAt || "").toDateString()}
             </p>
           </CardFooter>
         </Card>

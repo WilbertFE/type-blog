@@ -1,18 +1,12 @@
-import { CircleArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronLeft, Search } from "lucide-react";
 
 export function Header() {
   return (
-    <div className="flex items-center pt-8">
-      <div className="text-light-config">
-        <Link to="/">
-          <CircleArrowLeft size={40} />
-        </Link>
-      </div>
-      <div className="flex-1 -ml-4 text-center">
-        <h1 className="text-2xl font-bold tracking-wider text-light-config">
-          My Account
-        </h1>
+    <div className="flex flex-col">
+      <div className="flex justify-between">
+        <ChevronLeft size={32} color="#fff" />
+        <span className="text-xl tracking-wide text-white">Settings</span>
+        <Search size={32} color="#fff" />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ export function Topbar(props: { user: UserInterface }) {
   return (
     <div className="flex items-center justify-between mt-12">
       <div className="flex flex-1 gap-x-2">
-        <Avatar>
+        <Avatar className="border border-muted-foreground">
           <AvatarImage
             src={user.image || "https://github.com/shadcn.png"}
             alt="profile"
