@@ -4,6 +4,7 @@ import { UserInterface } from "@/types";
 import { Camera, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 interface BannerProps {
   user: UserInterface;
@@ -11,10 +12,21 @@ interface BannerProps {
 }
 
 export function Banner({ user, owner }: BannerProps) {
+  const storage = getStorage();
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     if (target.files) {
-      console.log(target.files[0]);
+      const file = target.files[0];
+      console.log(target.files[0].name);
+      const storageRef = ref(storage, `public/${target.files[0].name}`);
+      console.log("storageRef: ", storageRef);
+
+      uploadBytes(storageRef, file)
+        .then((snapshot) => console.log("Uploaded a blob or file!", snapshot))
+        .catch((error) => {
+          console.error("Upload failed:", error);
+        });
     }
   };
 
@@ -41,7 +53,6 @@ export function Banner({ user, owner }: BannerProps) {
         <Input
           onChange={handleImageChange}
           type="file"
-          accept="image/*"
           id="profile_image"
           className="hidden"
         />
