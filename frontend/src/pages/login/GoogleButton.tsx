@@ -40,7 +40,7 @@ export function GoogleButton() {
   return (
     <Button
       onClick={handleGoogleClick}
-      className="flex items-center justify-center py-2 mt-2 bg-transparent border-2 group border-slate-300 gap-x-2"
+      className="flex items-center justify-center w-full py-2 tracking-wider bg-transparent border-2 group border-slate-300 gap-x-2"
       type="button"
     >
       <FcGoogle size={24} />
