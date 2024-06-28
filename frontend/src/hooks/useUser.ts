@@ -8,9 +8,6 @@ export const useUser = (username: string | undefined) => {
 
   const getUser = async () => {
     try {
-      if (!username) {
-        throw new Error();
-      }
       const response = await axios.get(
         `http://localhost:6005/api/users/${username}`,
         { withCredentials: true }
@@ -25,7 +22,9 @@ export const useUser = (username: string | undefined) => {
   };
 
   useEffect(() => {
-    getUser();
+    if (username) {
+      getUser();
+    }
   }, [username]);
 
   return { user, loading };

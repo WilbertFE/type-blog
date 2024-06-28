@@ -7,9 +7,6 @@ export const useUserBlogs = (username: string | undefined) => {
 
   const getBlogs = async () => {
     try {
-      if (!username) {
-        throw new Error();
-      }
       const response = await axios.get(
         `http://localhost:6005/api/blogs/${username}`
       );
@@ -21,7 +18,9 @@ export const useUserBlogs = (username: string | undefined) => {
   };
 
   useEffect(() => {
-    getBlogs();
+    if (username) {
+      getBlogs();
+    }
   }, []);
 
   return { blogs };

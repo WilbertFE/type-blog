@@ -3,17 +3,17 @@ import { UserInterface } from "@/types";
 
 export function useOwner(
   username: string | undefined,
-  userMe: UserInterface | null
+  myData: UserInterface | null
 ) {
   const [owner, setOwner] = useState(false);
 
   useEffect(() => {
-    if (username && userMe) {
-      if (username === userMe.username) {
+    if (username && myData) {
+      if (username === myData.username) {
         setOwner(true);
       }
     }
-  }, [username, userMe]);
+  }, [username, myData]);
 
   return { owner };
 }

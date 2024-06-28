@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import nock from "nock";
-import { useMe } from "../useMe";
+import { useMe } from "../UseMe";
 
 describe("unit test useMe hooks", () => {
   it("should be my data", async () => {

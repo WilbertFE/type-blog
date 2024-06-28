@@ -1,9 +1,10 @@
+import { UseLoginContext } from "@/contexts/useLogin.context";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export function useLogin() {
-  const [login, setLogin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { login, setLogin } = useContext(UseLoginContext);
+  const [loading, setloading] = useState(true);
 
   const checkLogin = async () => {
     try {
@@ -11,16 +12,20 @@ export function useLogin() {
         withCredentials: true,
       });
       setLogin(true);
-      setLoading(false);
+      setloading(false);
     } catch (err) {
-      setLoading(false);
+      setloading(false);
       return console.error("Authentication Failed");
     }
   };
 
   useEffect(() => {
-    checkLogin();
-  }, []);
+    if (login) {
+      setloading(false);
+    } else {
+      checkLogin();
+    }
+  }, [login]);
 
   return { login, loading };
 }

@@ -4,23 +4,23 @@ import { Topbar } from "./home/Topbar";
 import { SearchBar } from "./home/SearchBar";
 import { Menus } from "./home/Menus";
 import { Blogs } from "./home/Blogs";
-import { useMe } from "../hooks/useMe.ts";
+import { useMe } from "@/hooks/UseMe";
 
 export function Home() {
-  const { user, loading } = useMe();
+  const { myData, loading } = useMe();
   return (
     <main id="home" className="pb-32 bg-primary-config">
       <div className="container">
         <div className="flex flex-col min-h-screen">
-          {user && !loading && (
+          {myData && !loading && (
             <>
-              <Topbar user={user} />
+              <Topbar />
               <SearchBar />
-              <Menus user={user} />
+              <Menus />
               <Blogs />
             </>
           )}
-          {!user && !loading && (
+          {!myData && !loading && (
             <>
               <SignInBar />
               <Description />

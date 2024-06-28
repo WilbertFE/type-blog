@@ -6,15 +6,17 @@ import { TbError404 } from "react-icons/tb";
 import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
 import { Blog } from "./home/Blog";
-import { useMe } from "@/hooks/useMe";
 import { useOwner } from "@/hooks/useOwner";
+import { useMe } from "@/hooks/UseMe";
 
 export function Profile() {
   const { username } = useParams();
+
   const { user, loading } = useUser(username);
   const { blogs } = useUserBlogs(username);
-  const userMe = useMe().user;
-  const { owner } = useOwner(username, userMe);
+  const { myData } = useMe();
+
+  const { owner } = useOwner(username, myData);
 
   return (
     <main id="profile" className="pb-12 bg-primary-config">

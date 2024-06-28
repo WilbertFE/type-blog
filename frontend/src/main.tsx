@@ -5,10 +5,11 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/Home.tsx";
 import { Login } from "./pages/Login.tsx";
-import { ValidationContextProvider } from "./contexts/validation.context.tsx";
 import { Create } from "./pages/Create.tsx";
 import { Profile } from "./pages/Profile.tsx";
 import { Settings } from "./pages/Settings.tsx";
+import { UseMeContextProvider } from "./contexts/useMe.context.tsx";
+import { UseLoginContextProvider } from "./contexts/useLogin.context.tsx";
 
 const router = createBrowserRouter([
   {
@@ -66,8 +67,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ValidationContextProvider>
-      <RouterProvider router={router} />
-    </ValidationContextProvider>
+    <UseLoginContextProvider>
+      <UseMeContextProvider>
+        <RouterProvider router={router} />
+      </UseMeContextProvider>
+    </UseLoginContextProvider>
   </React.StrictMode>
 );

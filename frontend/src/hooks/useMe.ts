@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { UserInterface } from "@/types";
+import { useContext, useEffect, useState } from "react";
+import { UseMeState } from "@/types";
 import axios from "axios";
+import { UseMeContext } from "@/contexts/useMe.context.tsx";
 
 export const useMe = () => {
-  const [user, setUser] = useState<null | UserInterface>(null);
+  const { myData, setMyData } = useContext<UseMeState>(UseMeContext);
   const [loading, setLoading] = useState(true);
 
   const getUserData = async () => {
@@ -12,7 +13,7 @@ export const useMe = () => {
         withCredentials: true,
       });
       const result = response.data;
-      setUser(result);
+      setMyData(result);
       setLoading(false);
     } catch (err: unknown) {
       setLoading(false);
@@ -21,8 +22,12 @@ export const useMe = () => {
   };
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    if (myData) {
+      setLoading(false);
+    } else {
+      getUserData();
+    }
+  }, [myData]);
 
-  return { user, loading };
+  return { myData, loading };
 };
