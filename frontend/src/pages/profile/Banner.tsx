@@ -5,6 +5,7 @@ import { Camera, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 interface BannerProps {
   user: UserInterface;
@@ -18,9 +19,7 @@ export function Banner({ user, owner }: BannerProps) {
     const target = e.target as HTMLInputElement;
     if (target.files) {
       const file = target.files[0];
-      console.log(target.files[0].name);
-      const storageRef = ref(storage, `public/${target.files[0].name}`);
-      console.log("storageRef: ", storageRef);
+      const storageRef = ref(storage, `public/${file.name + uuidv4()}`);
 
       uploadBytes(storageRef, file)
         .then((snapshot) => console.log("Uploaded a blob or file!", snapshot))
