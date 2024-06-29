@@ -6,17 +6,11 @@ import { TbError404 } from "react-icons/tb";
 import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
 import { Blog } from "./home/Blog";
-import { useOwner } from "@/hooks/useOwner";
-import { useMe } from "@/hooks/UseMe";
 
 export function Profile() {
   const { username } = useParams();
-
   const { user, loading } = useUser(username);
   const { blogs } = useUserBlogs(username);
-  const { myData } = useMe();
-
-  const { owner } = useOwner(username, myData);
 
   return (
     <main id="profile" className="pb-12 bg-primary-config">
@@ -24,7 +18,7 @@ export function Profile() {
         <div className="flex flex-col min-h-screen gap-y-4">
           {user && !loading && (
             <>
-              <Banner owner={owner} user={user} />
+              <Banner user={user} username={username} />
               <CallToAction />
               <Bio />
               {blogs && blogs.length > 0 && (

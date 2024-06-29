@@ -29,5 +29,5 @@ export const useMe = () => {
     }
   }, [myData]);
 
-  return { myData, loading };
+  return { myData, loading, setMyData };
 };

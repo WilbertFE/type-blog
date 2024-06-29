@@ -17,7 +17,7 @@ export const Login: React.FC = () => {
     <main id="login" className="bg-primary-config">
       <div className="container">
         <div className="flex flex-wrap min-h-screen">
-          {login && !loading && <LoginForm />}
+          {!login && !loading && <LoginForm />}
         </div>
       </div>
     </main>

@@ -59,11 +59,8 @@ export function SettingOptions({ myData }: { myData: UserInterface }) {
   return (
     <div className="flex flex-col px-4 gap-y-8">
       {settingOptions.map((option, i) => (
-        <Link to={`/user/${myData.username}/settings/${option.link}`}>
-          <div
-            key={i}
-            className="flex items-center p-2 rounded-lg gap-x-6 hover:bg-muted-foreground"
-          >
+        <Link key={i} to={`/user/${myData.username}/settings/${option.link}`}>
+          <div className="flex items-center p-2 rounded-lg gap-x-6 hover:bg-muted-foreground">
             <div>{option.icon}</div>
             <div>
               <h1 className="text-xl text-white">{option.title}</h1>

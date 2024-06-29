@@ -29,6 +29,7 @@ export function Blog(props: { blog: BlogInterface }) {
                 <Avatar className="border border-muted-foreground">
                   <Link to={`/user/${user.username}`}>
                     <AvatarImage
+                      className="object-cover object-center"
                       src={user.image || "https://github.com/shadcn.png"}
                       alt="profile"
                     />

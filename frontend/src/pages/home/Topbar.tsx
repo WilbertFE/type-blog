@@ -10,6 +10,7 @@ export function Topbar() {
       <div className="flex flex-1 gap-x-2">
         <Avatar className="border border-muted-foreground">
           <AvatarImage
+            className="object-cover object-center"
             src={myData?.image || "https://github.com/shadcn.png"}
             alt="profile"
           />
