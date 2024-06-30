@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
-import { UserInterface } from "@/types";
 import { Camera, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useMe } from "@/hooks/UseMe";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useOwner } from "@/hooks/useOwner";
+import { UserInterface } from "@/types";
 
 interface BannerProps {
   user: UserInterface;
@@ -27,6 +33,15 @@ export function Banner({ user, username }: BannerProps) {
         const file = target.files[0];
         const imageRef = `profile/${file.name + uuidv4()}`;
         const storageRef = ref(storage, imageRef);
+        const prevImageRef = (myData?.image as string)
+          .split("/o/")[1]
+          .split("?")[0]
+          .replace(/%2F/g, "/");
+        const prevStorageRef = ref(storage, prevImageRef);
+
+        await deleteObject(prevStorageRef)
+          .then(() => console.log("image deleted"))
+          .catch((reason) => console.error(reason));
 
         const downloadURL = await uploadBytes(storageRef, file)
           .then((snapshot) => getDownloadURL(snapshot.ref))
@@ -42,6 +57,7 @@ export function Banner({ user, username }: BannerProps) {
             headers: { "Content-Type": "application/json" },
           }
         );
+
         setMyData((value): UserInterface | null => {
           return {
             ...value,
