@@ -7,6 +7,7 @@ export function MyProfile({ myData }: { myData: UserInterface }) {
       <div>
         <Avatar className="w-16 h-16 border border-muted-foreground">
           <AvatarImage
+            className="object-cover object-center"
             src={myData.image || "https://github.com/shadcn.png"}
             alt="profile_image"
           />

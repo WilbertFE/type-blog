@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { UserInterface } from "@/types";
 import {
   BellDot,
@@ -10,6 +9,7 @@ import {
   Smile,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { LogoutButton } from "./LogoutButton";
 
 export function SettingOptions({ myData }: { myData: UserInterface }) {
   const settingOptions = [
@@ -69,7 +69,7 @@ export function SettingOptions({ myData }: { myData: UserInterface }) {
           </div>
         </Link>
       ))}
-      <Button variant="destructive">Log out</Button>
+      <LogoutButton />
     </div>
   );
 }

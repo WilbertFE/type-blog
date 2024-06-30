@@ -25,13 +25,15 @@ export function Banner({ user, username }: BannerProps) {
       const target = e.target as HTMLInputElement;
       if (target.files) {
         const file = target.files[0];
-        const storageRef = ref(storage, `public/${file.name + uuidv4()}`);
+        const imageRef = `profile/${file.name + uuidv4()}`;
+        const storageRef = ref(storage, imageRef);
 
         const downloadURL = await uploadBytes(storageRef, file)
           .then((snapshot) => getDownloadURL(snapshot.ref))
-          .catch((error) => {
-            console.error("Upload failed:", error);
+          .catch((error: unknown) => {
+            throw new Error("upload image failed : " + error);
           });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const result = await axios.post(
           "http://localhost:6005/api/users/image",
           JSON.stringify({ image: downloadURL }),
@@ -47,7 +49,6 @@ export function Banner({ user, username }: BannerProps) {
             image: downloadURL as string | undefined,
           };
         });
-        console.log("user-updated-data: ", result);
       }
     } catch (err) {
       console.error(err);
