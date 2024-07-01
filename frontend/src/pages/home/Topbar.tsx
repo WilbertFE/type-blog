@@ -11,7 +11,7 @@ export function Topbar() {
         <Avatar className="border border-muted-foreground">
           <AvatarImage
             className="object-cover object-center"
-            src={myData?.image || "https://github.com/shadcn.png"}
+            src={myData?.image}
             alt="profile"
           />
           <AvatarFallback>TB</AvatarFallback>

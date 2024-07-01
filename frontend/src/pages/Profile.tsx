@@ -5,7 +5,7 @@ import { Bio } from "./profile/Bio";
 import { TbError404 } from "react-icons/tb";
 import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
-import { Blog } from "./home/Blog";
+import { Blog } from "./profile/Blog";
 
 export function Profile() {
   const { username } = useParams();
@@ -28,7 +28,7 @@ export function Profile() {
                   </h1>
                   <div className="flex flex-col w-full gap-y-4">
                     {blogs.map((blog) => (
-                      <Blog key={blog._id} blog={blog} />
+                      <Blog key={blog._id} blog={blog} user={user} />
                     ))}
                   </div>
                 </div>

@@ -7,14 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
-import { BlogInterface } from "@/types";
+import { BlogInterface, UserInterface } from "@/types";
 import { Heart, MessageSquare, Pencil } from "lucide-react";
 
-export function Blog(props: { blog: BlogInterface }) {
-  const { blog } = props;
-  const { user } = useUser(blog.creator);
+export function Blog(props: { blog: BlogInterface; user: UserInterface }) {
+  const { blog, user } = props;
 
   return (
     <>

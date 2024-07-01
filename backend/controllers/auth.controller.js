@@ -2,9 +2,6 @@ import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 const isLoggedIn = async (req, res, next) => {
-  if (req.user) {
-    return next();
-  }
   const accessToken = req.cookies.access_token;
   if (!accessToken) {
     return res.sendStatus(401);
@@ -19,10 +16,14 @@ const isLoggedIn = async (req, res, next) => {
       return decoded;
     }
   );
-  const { id } = payload;
-  const user = await User.findById(id);
-  req.user = user;
-  next();
+  if (req.user) {
+    return next();
+  } else {
+    const { id } = payload;
+    const user = await User.findById(id);
+    req.user = user;
+    next();
+  }
 };
 
 const googleAuth = async (req, res, next) => {
@@ -61,4 +62,12 @@ const googleAuth = async (req, res, next) => {
   }
 };
 
-export { isLoggedIn, googleAuth };
+const logout = async (req, res) => {
+  req.user = null;
+  res
+    .status(200)
+    .cookie("access_token", "", { expires: new Date(0) })
+    .json("logout successfully");
+};
+
+export { isLoggedIn, googleAuth, logout };
