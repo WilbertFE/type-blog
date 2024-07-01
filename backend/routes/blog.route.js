@@ -3,6 +3,7 @@ import { body, validationResult } from "express-validator";
 import {
   createBlog,
   getAllBlogs,
+  getBlog,
   getUserBlogs,
 } from "../controllers/blog.controller.js";
 import { isLoggedIn } from "../controllers/auth.controller.js";
@@ -39,5 +40,7 @@ router.post(
 router.get("/", getAllBlogs);
 
 router.get("/:username", getUserBlogs);
+
+router.get("/blog/:blogID", getBlog);
 
 export const blogRoute = router;

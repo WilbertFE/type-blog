@@ -10,6 +10,7 @@ import { Profile } from "./pages/Profile.tsx";
 import { Settings } from "./pages/Settings.tsx";
 import { UseMeContextProvider } from "./contexts/useMe.context.tsx";
 import { UseLoginContextProvider } from "./contexts/useLogin.context.tsx";
+import { UpdateBlog } from "./pages/UpdateBlog.tsx";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,16 @@ const router = createBrowserRouter([
       {
         path: "/user/:username/settings",
         element: <Settings />,
+      },
+    ],
+  },
+  {
+    path: "/user/:username/blog/:blogID",
+    element: <App />,
+    children: [
+      {
+        path: "/user/:username/blog/:blogID",
+        element: <UpdateBlog />,
       },
     ],
   },

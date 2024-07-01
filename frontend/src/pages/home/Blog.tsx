@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
 import { BlogInterface } from "@/types";
+import { Heart, MessageSquare, Pencil } from "lucide-react";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
@@ -25,7 +26,10 @@ export function Blog(props: { blog: BlogInterface }) {
                 <CardTitle>{blog.title}</CardTitle>
                 <CardDescription>{blog.description}</CardDescription>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center gap-x-2">
+                <Link to={`/user/${user.username}/blog/${blog._id}`}>
+                  <Pencil />
+                </Link>
                 <Avatar className="border border-muted-foreground">
                   <Link to={`/user/${user.username}`}>
                     <AvatarImage
@@ -40,12 +44,24 @@ export function Blog(props: { blog: BlogInterface }) {
             </div>
           </CardHeader>
           <CardContent>
-            <p>{blog.content}</p>
+            <p className="mb-2">{blog.content}</p>
           </CardContent>
           <CardFooter>
-            <p className="text-sm text-slate-400">
-              {new Date(user.updatedAt || "").toDateString()}
-            </p>
+            <div>
+              <div className="flex mb-2 gap-x-4">
+                <div className="flex gap-x-1">
+                  <Heart />
+                  <span>20</span>
+                </div>
+                <div className="flex gap-x-1">
+                  <MessageSquare />
+                  <span>5</span>
+                </div>
+              </div>
+              <p className="text-sm text-slate-400">
+                {new Date(user.updatedAt || "").toDateString()}
+              </p>
+            </div>
           </CardFooter>
         </Card>
       )}

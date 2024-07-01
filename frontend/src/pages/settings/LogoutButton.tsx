@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 
 export function LogoutButton() {
-  const handleLogout = async () => {
-    console.log("logout");
-  };
   return (
-    <Button type="button" onClick={handleLogout} variant="destructive">
+    <Button
+      type="button"
+      onClick={(e) => console.log(e.target)}
+      variant="destructive"
+    >
       Log out
     </Button>
   );

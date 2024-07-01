@@ -28,4 +28,11 @@ const getUserBlogs = async (req, res) => {
   res.status(200).json(blogs);
 };
 
-export { createBlog, getAllBlogs, getUserBlogs };
+const getBlog = async (req, res) => {
+  const { blogID } = req.params;
+  const blog = await Blog.findById(blogID);
+  if (!blog) return res.sendStatus(404);
+  res.status(200).json(blog);
+};
+
+export { createBlog, getAllBlogs, getUserBlogs, getBlog };
