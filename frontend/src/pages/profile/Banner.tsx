@@ -84,7 +84,7 @@ export function Banner({ user, username }: BannerProps) {
         <Avatar className="w-full h-full border border-muted-foreground">
           <AvatarImage
             className="object-cover object-center"
-            src={owner ? myData?.image : user.image}
+            src={user.image}
           />
           <AvatarFallback>TB</AvatarFallback>
         </Avatar>

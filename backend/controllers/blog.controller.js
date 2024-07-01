@@ -35,4 +35,17 @@ const getBlog = async (req, res) => {
   res.status(200).json(blog);
 };
 
-export { createBlog, getAllBlogs, getUserBlogs, getBlog };
+const updateBlog = async (req, res) => {
+  try {
+    const newBlogData = await Blog.findByIdAndUpdate(
+      req.body._id,
+      req.body,
+      { new: true } // Option to return the updated document
+    );
+    res.status(201).json(newBlogData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update blog post" });
+  }
+};
+
+export { createBlog, getAllBlogs, getUserBlogs, getBlog, updateBlog };

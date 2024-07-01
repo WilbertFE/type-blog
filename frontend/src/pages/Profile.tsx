@@ -16,7 +16,7 @@ export function Profile() {
     <main id="profile" className="pb-12 bg-primary-config">
       <div className="container px-2">
         <div className="flex flex-col min-h-screen gap-y-4">
-          {user && !loading && (
+          {user && !loading && blogs && (
             <>
               <Banner user={user} username={username} />
               <CallToAction />
