@@ -48,4 +48,21 @@ const updateBlog = async (req, res) => {
   }
 };
 
-export { createBlog, getAllBlogs, getUserBlogs, getBlog, updateBlog };
+const deleteBlog = async (req, res) => {
+  try {
+    const { blogID } = req.params;
+    const deletedBlog = await Blog.findByIdAndDelete(blogID);
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};
+
+export {
+  createBlog,
+  getAllBlogs,
+  getUserBlogs,
+  getBlog,
+  updateBlog,
+  deleteBlog,
+};

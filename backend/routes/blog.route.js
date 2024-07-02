@@ -2,6 +2,7 @@ import express from "express";
 import { body, validationResult } from "express-validator";
 import {
   createBlog,
+  deleteBlog,
   getAllBlogs,
   getBlog,
   getUserBlogs,
@@ -38,12 +39,6 @@ router.post(
   createBlog
 );
 
-router.get("/", getAllBlogs);
-
-router.get("/:username", getUserBlogs);
-
-router.get("/blog/:blogID", getBlog);
-
 router.put(
   "/",
   [
@@ -69,5 +64,13 @@ router.put(
   },
   updateBlog
 );
+
+router.get("/", getAllBlogs);
+
+router.delete("/:blogID", deleteBlog);
+
+router.get("/:username", getUserBlogs);
+
+router.get("/blog/:blogID", getBlog);
 
 export const blogRoute = router;
