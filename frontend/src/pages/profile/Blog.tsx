@@ -11,58 +11,61 @@ import { Link } from "react-router-dom";
 import { BlogInterface, UserInterface } from "@/types";
 import { Heart, MessageSquare, Pencil } from "lucide-react";
 
-export function Blog(props: { blog: BlogInterface; user: UserInterface }) {
-  const { blog, user } = props;
-
+export function Blog(props: {
+  blog: BlogInterface;
+  user: UserInterface;
+  owner: boolean;
+}) {
+  const { blog, user, owner } = props;
   return (
     <>
-      {user && (
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between">
-              <div className="space-y-2">
-                <CardTitle>{blog.title}</CardTitle>
-                <CardDescription>{blog.description}</CardDescription>
-              </div>
-              <div className="flex items-center gap-x-2">
-                <Link to={`/user/${user.username}/blog/${blog._id}`}>
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between">
+            <div className="space-y-2">
+              <CardTitle>{blog.title}</CardTitle>
+              <CardDescription>{blog.description}</CardDescription>
+            </div>
+            <div className="flex items-center gap-x-2">
+              {owner && (
+                <Link to={`/user/${user.username}/blog/${blog._id}/edit`}>
                   <Pencil />
                 </Link>
-                <Avatar className="border border-muted-foreground">
-                  <Link to={`/user/${user.username}`}>
-                    <AvatarImage
-                      className="object-cover object-center"
-                      src={user.image}
-                      alt="profile"
-                    />
-                  </Link>
-                  <AvatarFallback>TB</AvatarFallback>
-                </Avatar>
+              )}
+              <Avatar className="border border-muted-foreground">
+                <Link to={`/user/${user.username}`}>
+                  <AvatarImage
+                    className="object-cover object-center"
+                    src={user.image}
+                    alt="profile"
+                  />
+                </Link>
+                <AvatarFallback>TB</AvatarFallback>
+              </Avatar>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-2">{blog.content}</p>
+        </CardContent>
+        <CardFooter>
+          <div>
+            <div className="flex mb-2 gap-x-4">
+              <div className="flex gap-x-1">
+                <Heart />
+                <span>20</span>
+              </div>
+              <div className="flex gap-x-1">
+                <MessageSquare />
+                <span>5</span>
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-2">{blog.content}</p>
-          </CardContent>
-          <CardFooter>
-            <div>
-              <div className="flex mb-2 gap-x-4">
-                <div className="flex gap-x-1">
-                  <Heart />
-                  <span>20</span>
-                </div>
-                <div className="flex gap-x-1">
-                  <MessageSquare />
-                  <span>5</span>
-                </div>
-              </div>
-              <p className="text-sm text-slate-400">
-                {new Date(user.updatedAt || "").toDateString()}
-              </p>
-            </div>
-          </CardFooter>
-        </Card>
-      )}
+            <p className="text-sm text-slate-400">
+              {new Date(user.updatedAt || "").toDateString()}
+            </p>
+          </div>
+        </CardFooter>
+      </Card>
     </>
   );
 }

@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
 import { BlogInterface } from "@/types";
-import { Heart, MessageSquare, Pencil } from "lucide-react";
+import { Heart, MessageSquare } from "lucide-react";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
@@ -27,9 +27,6 @@ export function Blog(props: { blog: BlogInterface }) {
                 <CardDescription>{blog.description}</CardDescription>
               </div>
               <div className="flex items-center gap-x-2">
-                <Link to={`/user/${user.username}/blog/${blog._id}`}>
-                  <Pencil />
-                </Link>
                 <Avatar className="border border-muted-foreground">
                   <Link to={`/user/${user.username}`}>
                     <AvatarImage

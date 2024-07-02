@@ -11,10 +11,12 @@ import { useMe } from "@/hooks/UseMe";
 import { useOwner } from "@/hooks/useOwner";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import { DeleteButton } from "./update/DeleteButton";
 
 export function UpdateBlog() {
   const navigate = useNavigate();
   const { blogID } = useParams();
+
   const { myData } = useMe();
   const { blog, setBlog } = useBlog(blogID);
   const { owner } = useOwner(blog?.creator, myData);
@@ -141,8 +143,9 @@ export function UpdateBlog() {
                   />
                 </div>
               </div>
-              <div className="flex">
+              <div className="flex gap-x-4">
                 <Button type="submit">Edit Blog</Button>
+                <DeleteButton blogID={blogID} />
               </div>
             </form>
           )}

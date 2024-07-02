@@ -11,20 +11,19 @@ import {
 } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { useMe } from "@/hooks/UseMe";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useOwner } from "@/hooks/useOwner";
 import { UserInterface } from "@/types";
 
 interface BannerProps {
   user: UserInterface;
   username: string | undefined;
+  myData: UserInterface;
+  owner: boolean;
+  setMyData: React.Dispatch<React.SetStateAction<null | UserInterface>>;
 }
 
-export function Banner({ user, username }: BannerProps) {
+export function Banner({ user, myData, owner, setMyData }: BannerProps) {
   const storage = getStorage();
-  const { myData, setMyData } = useMe();
-  const { owner } = useOwner(username, myData);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {

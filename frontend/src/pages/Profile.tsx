@@ -6,19 +6,29 @@ import { TbError404 } from "react-icons/tb";
 import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
 import { Blog } from "./profile/Blog";
+import { useMe } from "@/hooks/UseMe";
+import { useOwner } from "@/hooks/useOwner";
 
 export function Profile() {
   const { username } = useParams();
+  const { myData, setMyData } = useMe();
   const { user, loading } = useUser(username);
   const { blogs } = useUserBlogs(username);
+  const { owner } = useOwner(username, myData);
 
   return (
     <main id="profile" className="pb-12 bg-primary-config">
       <div className="container px-2">
         <div className="flex flex-col min-h-screen gap-y-4">
-          {user && !loading && blogs && (
+          {user && !loading && blogs && myData && (
             <>
-              <Banner user={user} username={username} />
+              <Banner
+                user={user}
+                username={username}
+                myData={myData}
+                owner={owner}
+                setMyData={setMyData}
+              />
               <CallToAction />
               <Bio />
               {blogs && blogs.length > 0 && (
@@ -28,7 +38,12 @@ export function Profile() {
                   </h1>
                   <div className="flex flex-col w-full gap-y-4">
                     {blogs.map((blog) => (
-                      <Blog key={blog._id} blog={blog} user={user} />
+                      <Blog
+                        key={blog._id}
+                        blog={blog}
+                        user={user}
+                        owner={owner}
+                      />
                     ))}
                   </div>
                 </div>

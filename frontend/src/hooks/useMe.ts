@@ -12,7 +12,7 @@ export const useMe = () => {
       const response = await axios.get("http://localhost:6005/api/users/me", {
         withCredentials: true,
       });
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+
       const result = response.data;
       setMyData(result);
       setLoading(false);

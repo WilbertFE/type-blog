@@ -65,11 +65,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/user/:username/blog/:blogID",
+    path: "/user/:username/blog/:blogID/edit",
     element: <App />,
     children: [
       {
-        path: "/user/:username/blog/:blogID",
+        path: "/user/:username/blog/:blogID/edit",
         element: <UpdateBlog />,
       },
     ],
