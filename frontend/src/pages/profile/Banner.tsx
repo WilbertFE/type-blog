@@ -16,7 +16,6 @@ import { UserInterface } from "@/types";
 
 interface BannerProps {
   user: UserInterface;
-  username: string | undefined;
   myData: UserInterface;
   owner: boolean;
   setMyData: React.Dispatch<React.SetStateAction<null | UserInterface>>;

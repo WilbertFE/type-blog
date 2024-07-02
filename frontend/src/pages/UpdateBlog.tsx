@@ -19,7 +19,7 @@ export function UpdateBlog() {
 
   const { myData } = useMe();
   const { blog, setBlog } = useBlog(blogID);
-  const { owner } = useOwner(blog?.creator, myData);
+  const { owner, loadingOwner } = useOwner(blog?.creator, myData);
   const [errors, setErrors] = useState<null | BlogError[]>(null);
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +53,7 @@ export function UpdateBlog() {
     <main id="create" className="bg-primary-config">
       <div className="container">
         <div className="flex flex-wrap min-h-screen">
-          {owner && blog && (
+          {owner && !loadingOwner && blog && (
             <form
               onSubmit={(e) => handleUpdate(e)}
               className="flex flex-col w-full mt-12 gap-y-6"

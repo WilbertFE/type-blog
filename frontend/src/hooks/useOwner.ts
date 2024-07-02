@@ -6,14 +6,18 @@ export function useOwner(
   myData: UserInterface | null
 ) {
   const [owner, setOwner] = useState(false);
+  const [loadingOwner, setLoadingOwner] = useState(true);
 
   useEffect(() => {
     if (username && myData) {
       if (username === myData.username) {
         setOwner(true);
+        setLoadingOwner(false);
+      } else {
+        setLoadingOwner(true);
       }
     }
   }, [username, myData]);
 
-  return { owner };
+  return { owner, loadingOwner };
 }

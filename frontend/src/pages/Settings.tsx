@@ -22,11 +22,11 @@ export function Settings() {
               <SettingOptions myData={myData} />
             </>
           )}
-          {!myData && !owner && !loading && (
+          {!owner && !loading && (
             <div className="flex flex-col items-center m-auto">
               <TbError404 size={128} className="text-light-config" />
               <h1 className="text-xl font-bold tracking-wide text-light-config">
-                User not found
+                Not Authorized
               </h1>
             </div>
           )}
