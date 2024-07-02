@@ -12,6 +12,7 @@ import { useOwner } from "@/hooks/useOwner";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { DeleteButton } from "./update/DeleteButton";
+import { TbError404 } from "react-icons/tb";
 
 export function UpdateBlog() {
   const navigate = useNavigate();
@@ -148,6 +149,14 @@ export function UpdateBlog() {
                 <DeleteButton blogID={blogID} />
               </div>
             </form>
+          )}
+          {!blog && !owner && !loadingOwner && (
+            <div className="flex flex-col items-center m-auto">
+              <TbError404 size={128} className="text-light-config" />
+              <h1 className="text-xl font-bold tracking-wide text-light-config">
+                User not found
+              </h1>
+            </div>
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Camera, Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserInterface } from "@/types";
+import { ChevronLeft } from "lucide-react";
 
 interface BannerProps {
   user: UserInterface;
@@ -23,6 +24,7 @@ interface BannerProps {
 
 export function Banner({ user, myData, owner, setMyData }: BannerProps) {
   const storage = getStorage();
+  const navigate = useNavigate();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -103,12 +105,20 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
           </>
         )}
       </div>
+      <div
+        onClick={() => navigate(-1)}
+        className="absolute left-0 top-3 text-light-config"
+      >
+        <ChevronLeft size={32} />
+      </div>
       {owner && (
-        <div className="absolute right-0 top-3 text-light-config">
-          <Link to={`/user/${user.username}/settings`}>
-            <Settings size={32} />
-          </Link>
-        </div>
+        <>
+          <div className="absolute right-0 top-3 text-light-config">
+            <Link to={`/user/${user.username}/settings`}>
+              <Settings size={32} />
+            </Link>
+          </div>
+        </>
       )}
     </div>
   );

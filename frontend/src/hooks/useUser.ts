@@ -23,7 +23,10 @@ export const useUser = (username: string | undefined) => {
 
   useEffect(() => {
     if (username) {
+      setLoading(true);
       getUser();
+    } else {
+      setLoading(false);
     }
   }, [username]);
 

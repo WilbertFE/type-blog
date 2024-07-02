@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export function DeleteButton({ blogID }: { blogID: string | undefined }) {
   const { username } = useParams();
@@ -49,7 +50,20 @@ export function DeleteButton({ blogID }: { blogID: string | undefined }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          <AlertDialogAction
+            onClick={async () => {
+              await handleDelete();
+              toast("Blog has been deleted", {
+                description: "This change cant be undone",
+                action: {
+                  label: "OK",
+                  onClick: () => console.log("blog deleted"),
+                },
+              });
+            }}
+          >
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

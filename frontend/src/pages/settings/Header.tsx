@@ -1,14 +1,13 @@
-import { UserInterface } from "@/types";
 import { ChevronLeft, Search } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export function Header({ myData }: { myData: UserInterface }) {
+export function Header() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
-        <Link to={`/user/${myData.username}`}>
-          <ChevronLeft size={32} color="#fff" />
-        </Link>
+        <ChevronLeft onClick={() => navigate(-1)} size={32} color="#fff" />
         <span className="text-xl tracking-wide text-white">Settings</span>
         <Search size={32} color="#fff" />
       </div>

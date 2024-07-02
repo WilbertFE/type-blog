@@ -10,12 +10,15 @@ export function useOwner(
 
   useEffect(() => {
     if (username && myData) {
+      setLoadingOwner(true);
       if (username === myData.username) {
         setOwner(true);
         setLoadingOwner(false);
       } else {
         setLoadingOwner(false);
       }
+    } else {
+      setLoadingOwner(false);
     }
   }, [username, myData]);
 

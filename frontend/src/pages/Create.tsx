@@ -6,7 +6,7 @@ import { createBlog } from "@/utils/createBlog";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CircleAlert } from "lucide-react";
+import { ChevronLeft, CircleAlert } from "lucide-react";
 import { useLogin } from "@/hooks/useLogin";
 import { BlogError } from "@/types/BlogError";
 
@@ -39,10 +39,18 @@ export function Create() {
             onSubmit={(e) => handleCreateBlog(e)}
             className="flex flex-col w-full mt-12 gap-y-6"
           >
-            <div className="flex flex-col items-center">
-              <h1 className="text-3xl font-bold tracking-wide text-light-config">
-                Create Blog
-              </h1>
+            <div className="relative flex flex-col items-center">
+              <div>
+                <ChevronLeft
+                  onClick={() => navigate(-1)}
+                  className="absolute left-0"
+                  size={32}
+                  color="#fff"
+                />
+                <h1 className="text-3xl font-bold tracking-wide text-light-config">
+                  Create Blog
+                </h1>
+              </div>
               <span className="text-sm font-medium text-light-config">
                 fill your mind
               </span>

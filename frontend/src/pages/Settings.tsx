@@ -17,7 +17,7 @@ export function Settings() {
         <div className="flex flex-col min-h-screen gap-y-8">
           {myData && owner && !loading && (
             <>
-              <Header myData={myData} />
+              <Header />
               <MyProfile myData={myData} />
               <SettingOptions myData={myData} />
             </>
