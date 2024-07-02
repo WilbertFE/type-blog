@@ -14,7 +14,7 @@ export function useOwner(
         setOwner(true);
         setLoadingOwner(false);
       } else {
-        setLoadingOwner(true);
+        setLoadingOwner(false);
       }
     }
   }, [username, myData]);
