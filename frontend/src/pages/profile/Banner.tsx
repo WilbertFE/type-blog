@@ -33,10 +33,9 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
         const file = target.files[0];
         const imageRef = `profile/${file.name + uuidv4()}`;
         const storageRef = ref(storage, imageRef);
-        const prevImageRef = (myData?.image as string)
-          .split("/o/")[1]
-          .split("?")[0]
-          .replace(/%2F/g, "/");
+        const prevImageRef = decodeURIComponent(
+          (myData?.image as string).split("/o/")[1].split("?")[0]
+        );
         const prevStorageRef = ref(storage, prevImageRef);
 
         await deleteObject(prevStorageRef)
@@ -84,7 +83,7 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
         <Avatar className="w-full h-full border border-muted-foreground">
           <AvatarImage
             className="object-cover object-center"
-            src={user.image}
+            src={owner ? myData.image : user.image}
           />
           <AvatarFallback>TB</AvatarFallback>
         </Avatar>
@@ -107,7 +106,7 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
       </div>
       <div
         onClick={() => navigate(-1)}
-        className="absolute left-0 top-3 text-light-config"
+        className="absolute left-0 cursor-pointer top-3 text-light-config"
       >
         <ChevronLeft size={32} />
       </div>

@@ -7,7 +7,12 @@ export function Header() {
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
-        <ChevronLeft onClick={() => navigate(-1)} size={32} color="#fff" />
+        <ChevronLeft
+          onClick={() => navigate(-1)}
+          size={32}
+          color="#fff"
+          className="cursor-pointer"
+        />
         <span className="text-xl tracking-wide text-white">Settings</span>
         <Search size={32} color="#fff" />
       </div>

@@ -43,7 +43,7 @@ export function Create() {
               <div>
                 <ChevronLeft
                   onClick={() => navigate(-1)}
-                  className="absolute left-0"
+                  className="absolute left-0 cursor-pointer"
                   size={32}
                   color="#fff"
                 />

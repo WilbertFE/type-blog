@@ -41,6 +41,7 @@ export function Profile() {
                       <Blog
                         key={blog._id}
                         blog={blog}
+                        myData={myData}
                         user={user}
                         owner={owner}
                       />

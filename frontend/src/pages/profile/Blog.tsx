@@ -15,8 +15,9 @@ export function Blog(props: {
   blog: BlogInterface;
   user: UserInterface;
   owner: boolean;
+  myData: UserInterface | null;
 }) {
-  const { blog, user, owner } = props;
+  const { blog, user, owner, myData } = props;
   return (
     <>
       <Card>
@@ -36,7 +37,7 @@ export function Blog(props: {
                 <Link to={`/user/${user.username}`}>
                   <AvatarImage
                     className="object-cover object-center"
-                    src={user.image}
+                    src={owner ? myData?.image : user.image}
                     alt="profile"
                   />
                 </Link>
