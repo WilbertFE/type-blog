@@ -1,10 +1,13 @@
 import { SignInBar } from "./home/SignInBar";
 import { Description } from "./home/Description";
 import { Topbar } from "./home/Topbar";
-import { SearchBar } from "./home/SearchBar";
+import { Searchbar } from "./home/Searchbar";
 import { Menus } from "./home/Menus";
 import { Blogs } from "./home/Blogs";
 import { useMe } from "@/hooks/UseMe";
+import { TopbarSkeleton } from "./home/skeleton/TopbarSkeleton";
+import { SearchbarSkeleton } from "./home/skeleton/SearchbarSkeleton";
+import { MenusSkeleton } from "./home/skeleton/MenusSkeleton";
 
 export function Home() {
   const { myData, loading } = useMe();
@@ -15,7 +18,7 @@ export function Home() {
           {myData && !loading && (
             <>
               <Topbar />
-              <SearchBar />
+              <Searchbar />
               <Menus />
               <Blogs />
             </>
@@ -24,6 +27,13 @@ export function Home() {
             <>
               <SignInBar />
               <Description />
+            </>
+          )}
+          {!myData && loading && (
+            <>
+              <TopbarSkeleton />
+              <SearchbarSkeleton />
+              <MenusSkeleton />
             </>
           )}
         </div>
