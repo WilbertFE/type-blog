@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate, useParams } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleAlert } from "lucide-react";
-import { BlogError } from "@/types/BlogError";
+import { BlogError } from "@/types/ExpressValidationError";
 import { useBlog } from "@/hooks/useBlog";
 import { useMe } from "@/hooks/UseMe";
 import { useOwner } from "@/hooks/useOwner";

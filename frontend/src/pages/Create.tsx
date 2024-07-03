@@ -8,17 +8,17 @@ import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ChevronLeft, CircleAlert } from "lucide-react";
 import { useLogin } from "@/hooks/useLogin";
-import { BlogError } from "@/types/BlogError";
+import { ExpressValidationError } from "@/types/ExpressValidationError";
 
 export function Create() {
   const navigate = useNavigate();
   const { login, loading } = useLogin();
-  const [errors, setErrors] = useState<null | BlogError[]>(null);
+  const [errors, setErrors] = useState<null | ExpressValidationError[]>(null);
   const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     const result = await createBlog(e);
     if (result.response) {
       const filteredErrors = result.response.data.errors.filter(
-        (err: BlogError) => err.msg !== "null"
+        (err: ExpressValidationError) => err.msg !== "null"
       );
       return setErrors(filteredErrors);
     }

@@ -1,6 +1,7 @@
 import { UserInterface } from "@/types";
 import {
   BellDot,
+  CircleAlert,
   CircleHelp,
   CircleUser,
   Database,
@@ -22,8 +23,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { ExpressValidationError } from "@/types/ExpressValidationError";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function SettingOptions({
   myData,
@@ -32,9 +34,9 @@ export function SettingOptions({
   myData: UserInterface;
   setMyData: React.Dispatch<React.SetStateAction<UserInterface | null>>;
 }) {
-  const navigate = useNavigate();
   const [name, setName] = useState(myData.displayName);
   const [username, setUsername] = useState(myData.username);
+  const [errors, setErrors] = useState<null | ExpressValidationError[]>(null);
 
   const handleChangeProfile = async () => {
     try {
@@ -48,8 +50,16 @@ export function SettingOptions({
         }
       );
       setMyData(result.data.updatedUser);
-      window.location.href = window.location.pathname;
+      window.location.href = `/user/${result.data.updatedUser.username}/settings`;
     } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response?.data.errors) {
+          const filteredErrors = err.response.data.errors.filter(
+            (error: ExpressValidationError) => error.msg !== "null"
+          );
+          setErrors(filteredErrors);
+        }
+      }
       console.log(err);
     }
   };
@@ -121,6 +131,23 @@ export function SettingOptions({
                 Make changes to your profile here. Click save when you're done.
               </DialogDescription>
             </DialogHeader>
+            {errors && (
+              <div>
+                <Alert variant="destructive">
+                  <CircleAlert size={20} />
+                  <AlertTitle>Validation Errors !</AlertTitle>
+                  <AlertDescription>
+                    <ul className="list-disc list-inside">
+                      {errors.map((err, i) => (
+                        <li className="list-item" key={i}>
+                          {err.msg}
+                        </li>
+                      ))}
+                    </ul>
+                  </AlertDescription>
+                </Alert>
+              </div>
+            )}
             <div className="grid gap-4 py-4">
               <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="name" className="text-right">

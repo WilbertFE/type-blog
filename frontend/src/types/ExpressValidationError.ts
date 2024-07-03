@@ -1,4 +1,4 @@
-export interface BlogError {
+export interface ExpressValidationError {
   location?: string;
   msg?: string;
   path?: string;
