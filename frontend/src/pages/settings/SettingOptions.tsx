@@ -8,16 +8,61 @@ import {
   MessageCircleMore,
   Smile,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 import { LogoutButton } from "./LogoutButton";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export function SettingOptions({ myData }: { myData: UserInterface }) {
+export function SettingOptions({
+  myData,
+  setMyData,
+}: {
+  myData: UserInterface;
+  setMyData: React.Dispatch<React.SetStateAction<UserInterface | null>>;
+}) {
+  const navigate = useNavigate();
+  const [name, setName] = useState(myData.displayName);
+  const [username, setUsername] = useState(myData.username);
+
+  const handleChangeProfile = async () => {
+    try {
+      const data = { ...myData, displayName: name, username };
+      const result = await axios.put(
+        "http://localhost:6005/api/users",
+        JSON.stringify(data),
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      setMyData(result.data.updatedUser);
+      window.location.href = window.location.pathname;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const settingOptions = [
     {
       title: "Account",
       info: "Account information, etc.",
       icon: <CircleUser size={32} color="#ffffff" />,
       link: "account",
+      onClick: () => {
+        handleChangeProfile();
+      },
     },
     {
       title: "Chats",
@@ -59,15 +104,54 @@ export function SettingOptions({ myData }: { myData: UserInterface }) {
   return (
     <div className="flex flex-col px-4 gap-y-8">
       {settingOptions.map((option, i) => (
-        <Link key={i} to={`/user/${myData.username}/settings/${option.link}`}>
-          <div className="flex items-center p-2 rounded-lg gap-x-6 hover:bg-muted-foreground">
-            <div>{option.icon}</div>
-            <div>
-              <h1 className="text-xl text-white">{option.title}</h1>
-              <p className="font-light text-white">{option.info}</p>
+        <Dialog key={i}>
+          <DialogTrigger asChild>
+            <div className="flex items-center p-2 rounded-lg gap-x-6 hover:bg-muted-foreground">
+              <div>{option.icon}</div>
+              <div>
+                <h1 className="text-xl text-white">{option.title}</h1>
+                <p className="font-light text-white">{option.info}</p>
+              </div>
             </div>
-          </div>
-        </Link>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid items-center grid-cols-4 gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  defaultValue={name}
+                  className="col-span-3"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="grid items-center grid-cols-4 gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Username
+                </Label>
+                <Input
+                  id="username"
+                  defaultValue={username}
+                  className="col-span-3"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit" onClick={option.onClick}>
+                Save changes
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       ))}
       <LogoutButton />
     </div>

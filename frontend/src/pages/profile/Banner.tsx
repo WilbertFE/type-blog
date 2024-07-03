@@ -47,23 +47,17 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
           .catch((error: unknown) => {
             throw new Error("upload image failed : " + error);
           });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const result = await axios.post(
-          "http://localhost:6005/api/users/image",
-          JSON.stringify({ image: downloadURL }),
+
+        const result = await axios.put(
+          "http://localhost:6005/api/users",
+          JSON.stringify({ ...myData, image: downloadURL }),
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
           }
         );
 
-        setMyData((value): UserInterface | null => {
-          return {
-            ...value,
-            username: value?.username as string,
-            image: downloadURL as string | undefined,
-          };
-        });
+        setMyData(result.data.updatedUser);
       }
     } catch (err) {
       console.error(err);

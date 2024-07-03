@@ -14,13 +14,15 @@ const getUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-const updateUserImage = async (req, res) => {
-  const { image } = req.body;
-  const user = await User.findOneAndUpdate({ _id: req.user._id }, { image });
-  if (!user) {
-    return res.sendStatus(404);
+const updateUser = async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.body._id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ updatedUser });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
   }
-  res.status(201).json({ user });
 };
 
-export { getMyData, getUser, updateUserImage };
+export { getMyData, getUser, updateUser };

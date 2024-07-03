@@ -8,21 +8,21 @@ import { TbError404 } from "react-icons/tb";
 
 export function Settings() {
   const { username } = useParams();
-  const { myData, loading } = useMe();
-  const { owner } = useOwner(username, myData);
+  const { myData, loading, setMyData } = useMe();
+  const { owner, loadingOwner } = useOwner(username, myData);
 
   return (
     <main className="pt-6 pb-12 bg-primary-config">
       <div className="container">
         <div className="flex flex-col min-h-screen gap-y-8">
-          {myData && owner && !loading && (
+          {myData && owner && !loading && !loadingOwner && (
             <>
               <Header />
               <MyProfile myData={myData} />
-              <SettingOptions myData={myData} />
+              <SettingOptions myData={myData} setMyData={setMyData} />
             </>
           )}
-          {!owner && !loading && (
+          {!owner && !loading && !loadingOwner && (
             <div className="flex flex-col items-center m-auto">
               <TbError404 size={128} className="text-light-config" />
               <h1 className="text-xl font-bold tracking-wide text-light-config">
