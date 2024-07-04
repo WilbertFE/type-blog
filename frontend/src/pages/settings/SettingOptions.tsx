@@ -1,4 +1,3 @@
-import { UserInterface } from "@/types";
 import {
   BellDot,
   CircleAlert,
@@ -19,23 +18,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ExpressValidationError } from "@/types/ExpressValidationError";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { UseMeContext } from "@/contexts/useMe.context";
 
-export function SettingOptions({
-  myData,
-  setMyData,
-}: {
-  myData: UserInterface;
-  setMyData: React.Dispatch<React.SetStateAction<UserInterface | null>>;
-}) {
-  const [name, setName] = useState(myData.displayName);
-  const [username, setUsername] = useState(myData.username);
+export function SettingOptions() {
+  const { myData, setMyData } = useContext(UseMeContext);
+  const [name, setName] = useState(myData?.displayName);
+  const [username, setUsername] = useState(myData?.username);
   const [errors, setErrors] = useState<null | ExpressValidationError[]>(null);
 
   const handleChangeProfile = async () => {
@@ -50,7 +46,6 @@ export function SettingOptions({
         }
       );
       setMyData(result.data.updatedUser);
-      window.location.href = `/user/${result.data.updatedUser.username}/settings`;
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response?.data.errors) {
@@ -173,9 +168,11 @@ export function SettingOptions({
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" onClick={option.onClick}>
-                Save changes
-              </Button>
+              <DialogClose asChild>
+                <Button type="submit" onClick={option.onClick}>
+                  Save changes
+                </Button>
+              </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

@@ -8,7 +8,7 @@ import { TbError404 } from "react-icons/tb";
 
 export function Settings() {
   const { username } = useParams();
-  const { myData, loading, setMyData } = useMe();
+  const { myData, loading } = useMe();
   const { owner, loadingOwner } = useOwner(username, myData);
 
   return (
@@ -18,8 +18,8 @@ export function Settings() {
           {myData && owner && !loading && !loadingOwner && (
             <>
               <Header />
-              <MyProfile myData={myData} />
-              <SettingOptions myData={myData} setMyData={setMyData} />
+              <MyProfile />
+              <SettingOptions />
             </>
           )}
           {!owner && !loading && !loadingOwner && (

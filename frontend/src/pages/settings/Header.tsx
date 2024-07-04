@@ -1,18 +1,16 @@
+import { UseMeContext } from "@/contexts/useMe.context";
 import { ChevronLeft, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 export function Header() {
-  const navigate = useNavigate();
-
+  const { myData } = useContext(UseMeContext);
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">
-        <ChevronLeft
-          onClick={() => navigate(-1)}
-          size={32}
-          color="#fff"
-          className="cursor-pointer"
-        />
+        <Link to={`/user/${myData?.username}`}>
+          <ChevronLeft size={32} color="#fff" className="cursor-pointer" />
+        </Link>
         <span className="text-xl tracking-wide text-white">Settings</span>
         <Search size={32} color="#fff" />
       </div>

@@ -23,8 +23,8 @@ interface BannerProps {
 }
 
 export function Banner({ user, myData, owner, setMyData }: BannerProps) {
-  const storage = getStorage();
   const navigate = useNavigate();
+  const storage = getStorage();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -68,7 +68,7 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
     <div className="relative">
       <div className="bg-secondary-config/10 h-[120px] rounded-lg"></div>
       <div className="bg-accent-config/10 h-[120px] rounded-b-lg">
-        <h3 className="pt-12 text-center text-slate-400">{user.username}</h3>
+        <h3 className="pt-12 text-center text-slate-400">@{user.username}</h3>
         <h1 className="text-xl font-bold tracking-wide text-center text-light-config">
           {user.displayName}
         </h1>

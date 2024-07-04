@@ -30,7 +30,11 @@ route.put(
           strength: 2,
         });
         if (user) {
-          throw new Error("Username already in use");
+          if (value === user.username) {
+            return true;
+          } else {
+            throw new Error("Username already in use");
+          }
         }
       }),
   ],
