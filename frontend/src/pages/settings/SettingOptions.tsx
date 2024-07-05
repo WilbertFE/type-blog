@@ -1,6 +1,5 @@
 import {
   BellDot,
-  CircleAlert,
   CircleHelp,
   CircleUser,
   Database,
@@ -25,14 +24,15 @@ import { Label } from "@/components/ui/label";
 import { useContext, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ExpressValidationError } from "@/types/ExpressValidationError";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { UseMeContext } from "@/contexts/useMe.context";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export function SettingOptions() {
+  const navigate = useNavigate();
   const { myData, setMyData } = useContext(UseMeContext);
   const [name, setName] = useState(myData?.displayName);
   const [username, setUsername] = useState(myData?.username);
-  const [errors, setErrors] = useState<null | ExpressValidationError[]>(null);
 
   const handleChangeProfile = async () => {
     try {
@@ -46,13 +46,31 @@ export function SettingOptions() {
         }
       );
       setMyData(result.data.updatedUser);
+      toast("Changes successfully saved", {
+        description: "Your account has been updated",
+      });
+      navigate(`/user/${result.data.updatedUser.username}/settings`);
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response?.data.errors) {
           const filteredErrors = err.response.data.errors.filter(
             (error: ExpressValidationError) => error.msg !== "null"
           );
-          setErrors(filteredErrors);
+          toast("Changes do not saved", {
+            description: (
+              <ul className="list-disc list-inside">
+                {filteredErrors.map(
+                  (err: ExpressValidationError, i: number) => (
+                    <li className="text-red-600 list-item" key={i}>
+                      {err.msg}
+                    </li>
+                  )
+                )}
+              </ul>
+            ),
+          });
+          setName(myData?.displayName);
+          setUsername(myData?.username);
         }
       }
       console.log(err);
@@ -126,23 +144,6 @@ export function SettingOptions() {
                 Make changes to your profile here. Click save when you're done.
               </DialogDescription>
             </DialogHeader>
-            {errors && (
-              <div>
-                <Alert variant="destructive">
-                  <CircleAlert size={20} />
-                  <AlertTitle>Validation Errors !</AlertTitle>
-                  <AlertDescription>
-                    <ul className="list-disc list-inside">
-                      {errors.map((err, i) => (
-                        <li className="list-item" key={i}>
-                          {err.msg}
-                        </li>
-                      ))}
-                    </ul>
-                  </AlertDescription>
-                </Alert>
-              </div>
-            )}
             <div className="grid gap-4 py-4">
               <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="name" className="text-right">
@@ -169,9 +170,7 @@ export function SettingOptions() {
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button type="submit" onClick={option.onClick}>
-                  Save changes
-                </Button>
+                <Button onClick={option.onClick}>Save Changes</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>

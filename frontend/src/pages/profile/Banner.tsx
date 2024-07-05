@@ -99,7 +99,7 @@ export function Banner({ user, myData, owner, setMyData }: BannerProps) {
         )}
       </div>
       <div
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/")}
         className="absolute left-0 cursor-pointer top-3 text-light-config"
       >
         <ChevronLeft size={32} />

@@ -16,12 +16,10 @@ const getUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.body._id, req.body, {
-      new: true,
-    });
-    res.status(200).json({ updatedUser });
+    await User.updateOne({ _id: req.body._id }, req.body);
+    res.status(200).json({ updatedUser: req.body });
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    res.status(500).json({ errors: [{ msg: err.message }] });
   }
 };
 

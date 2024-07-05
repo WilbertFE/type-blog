@@ -24,16 +24,22 @@ route.put(
       .escape()
       .notEmpty()
       .withMessage("Username cannot be empty")
-      .custom(async (value) => {
+      .custom(async (value, { req }) => {
         const user = await User.findOne({ username: value }).collation({
           locale: "en",
           strength: 2,
         });
+
         if (user) {
-          if (value === user.username) {
-            return true;
+          if (user._id.toString() === req.body._id) {
+            if (user.image !== req.body.image) {
+              return;
+            }
+            if (user.displayName === req.body.displayName) {
+              throw new Error("You didnt change anything");
+            }
           } else {
-            throw new Error("Username already in use");
+            throw new Error("Username already exist");
           }
         }
       }),
