@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate, useParams } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CircleAlert } from "lucide-react";
-import { BlogError } from "@/types/ExpressValidationError";
 import { useBlog } from "@/hooks/useBlog";
 import { useMe } from "@/hooks/UseMe";
 import { useOwner } from "@/hooks/useOwner";
@@ -13,6 +12,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { DeleteButton } from "./update/DeleteButton";
 import { TbError404 } from "react-icons/tb";
+import { ExpressValidationError } from "@/types/ExpressValidationError";
 
 export function UpdateBlog() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export function UpdateBlog() {
   const { myData } = useMe();
   const { blog, setBlog } = useBlog(blogID);
   const { owner, loadingOwner } = useOwner(blog?.creator, myData);
-  const [errors, setErrors] = useState<null | BlogError[]>(null);
+  const [errors, setErrors] = useState<null | ExpressValidationError[]>(null);
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export function UpdateBlog() {
       if (err instanceof AxiosError) {
         if (err.response?.data.errors) {
           const filteredErrors = err.response.data.errors.filter(
-            (err: BlogError) => err.msg !== "null"
+            (err: ExpressValidationError) => err.msg !== "null"
           );
           setErrors(filteredErrors);
         }
