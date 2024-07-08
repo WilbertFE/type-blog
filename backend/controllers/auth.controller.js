@@ -3,14 +3,31 @@ import jwt from "jsonwebtoken";
 
 const isLoggedIn = async (req, res, next) => {
   try {
-    if (req.user) {
-      return next();
-    }
     const accessToken = req.cookies.access_token;
     const refreshToken = req.cookies.refresh_token;
 
     if (!accessToken) {
-      return res.sendStatus(401);
+      if (!refreshToken) {
+        return res.sendStatus(401);
+      }
+      const refreshPayload = jwt.verify(refreshToken, process.env.JWT_SECRET);
+      if (!refreshPayload.id) {
+        return res.sendStatus(403);
+      }
+      const { id } = refreshPayload;
+      const user = await User.findById(id);
+      if (!user) {
+        return res.sendStatus(403);
+      }
+      if (user.refreshToken !== refreshToken) {
+        return res.sendStatus(403);
+      }
+      const newAccessToken = genAccessToken(user._id);
+      res.cookie("access_token", newAccessToken, {
+        httpOnly: true,
+      });
+      req.user = user;
+      return next();
     }
 
     const payload = jwt.verify(
@@ -18,21 +35,57 @@ const isLoggedIn = async (req, res, next) => {
       process.env.JWT_SECRET,
       (err, decoded) => {
         if (err) {
-          res.status(403);
-          throw new Error();
+          return;
         }
         return decoded;
       }
     );
-    if (payload) {
-      const { id } = payload;
+
+    if (!payload) {
+      if (!refreshToken) {
+        return res.sendStatus(403);
+      }
+      const refreshPayload = jwt.verify(
+        refreshToken,
+        process.env.JWT_SECRET,
+        (err, decoded) => {
+          if (err) {
+            return;
+          }
+          return decoded;
+        }
+      );
+
+      if (!refreshPayload) {
+        return res.sendStatus(403);
+      }
+
+      const { id } = refreshPayload;
       const user = await User.findById(id);
+      if (!user) {
+        return res.sendStatus(403);
+      }
+      if (user.refreshToken !== refreshToken) {
+        return res.sendStatus(403);
+      }
+      const newAccessToken = genAccessToken(user._id);
+      res.cookie("access_token", newAccessToken, {
+        httpOnly: true,
+      });
       req.user = user;
+      return next();
     }
 
+    const { id } = payload;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.sendStatus(403);
+    }
+    req.user = user;
     next();
   } catch (err) {
-    next(err.message);
+    console.error(err);
+    res.status(500);
   }
 };
 
@@ -46,6 +99,8 @@ const googleAuth = async (req, res, next) => {
     if (user) {
       const accessToken = genAccessToken(user._id);
       const refreshToken = genRefreshToken(user._id);
+
+      await user.updateOne({ refreshToken });
 
       res
         .status(200)
