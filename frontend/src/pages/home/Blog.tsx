@@ -19,11 +19,40 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
   const { user } = useUser(blog.creator);
+  const [isComment, setIsComment] = useState(false);
+  const [comment, setComment] = useState("");
+
+  const handleCancel = () => {
+    setIsComment(false);
+    setComment("");
+  };
+
+  const handleComment = async () => {
+    try {
+      const result = await axios.post(
+        "http://localhost:6005/api/comments",
+        { comment },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("result : ", result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -102,22 +131,38 @@ export function Blog(props: { blog: BlogInterface }) {
                             </span>
                           </div>
                         </div>
+                        <BsThreeDotsVertical size={30} />
                       </div>
                     </div>
                     <DialogFooter className="block">
-                      <div className="flex">
-                        <Avatar>
-                          <AvatarImage
-                            src="https://github.com/shadcn.png"
-                            alt="@shadcn"
+                      <div className="flex flex-col">
+                        <div className="flex">
+                          <Avatar>
+                            <AvatarImage
+                              src="https://github.com/shadcn.png"
+                              alt="@shadcn"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                          <Textarea
+                            placeholder="Add a comment"
+                            rows={1}
+                            onFocus={() => setIsComment(true)}
+                            onChange={(e) => setComment(e.target.value)}
+                            className="border-t-0 border-b min-h-8 border-x-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:border-x-0 focus-visible:border-t-0 focus-visible:ring-offset-0"
                           />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <Input
-                          type="text"
-                          placeholder="Add a comment"
-                          className="border-t-0 border-b border-x-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:border-x-0 focus-visible:border-t-0 focus-visible:ring-offset-0"
-                        />
+                        </div>
+                        {isComment && (
+                          <div className="self-end mt-2 space-x-2">
+                            <Button
+                              onClick={handleCancel}
+                              variant="destructive"
+                            >
+                              Cancel
+                            </Button>
+                            <Button onClick={handleComment}>Comment</Button>
+                          </div>
+                        )}
                       </div>
                     </DialogFooter>
                   </DialogContent>

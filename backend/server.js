@@ -6,6 +6,7 @@ import { userRoute } from "./routes/user.route.js";
 import { connectDB } from "./database/connection.js";
 import { blogRoute } from "./routes/blog.route.js";
 import { authRoute } from "./routes/auth.route.js";
+import { commentRoute } from "./routes/comment.route.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use("/api/users", userRoute);
 app.use("/api/blogs", blogRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/comments", commentRoute);
 
 app.listen(port, () => {
   console.log(`Your application is listening on http://localhost:${port}`);
