@@ -6,19 +6,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, MessageSquare, ThumbsDown, ThumbsUp } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BlogInterface } from "@/types";
+import { Comment } from "./Comment";
+import { CommentInterface } from "@/types/Comment";
+import { UseMeContext } from "@/contexts/useMe.context";
 
 export function CommentDialog({ blog }: { blog: BlogInterface }) {
   const [isComment, setIsComment] = useState(false);
   const [content, setContent] = useState("");
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<[] | CommentInterface[]>([]);
+  const { myData } = useContext(UseMeContext);
 
   const getAllComments = async () => {
     try {
@@ -55,7 +58,7 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
           },
         }
       );
-      console.log("result : ", result);
+      setComments((prevState) => [...prevState, result.data]);
     } catch (err) {
       console.error(err);
     }
@@ -70,46 +73,17 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Comments 1.0K</DialogTitle>
+          <DialogTitle>Comments {comments.length}</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4 py-4">
-          <div className="flex gap-x-4">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <h3>@wilbert</h3>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Reiciendis, sint.
-              </p>
-              <div className="flex mt-2 gap-x-3">
-                <div className="flex gap-x-1">
-                  <ThumbsUp strokeWidth={1} />
-                  <span>0</span>
-                </div>
-                <div className="flex gap-x-1">
-                  <ThumbsDown strokeWidth={1} />
-                  <span>0</span>
-                </div>
-              </div>
-              <div className="flex items-center self-start mt-2 cursor-pointer">
-                <ChevronDown className="text-blue-600" />
-                <span className="font-medium text-blue-600">1 replies</span>
-              </div>
-            </div>
-            <BsThreeDotsVertical size={30} />
-          </div>
+        <div className="flex flex-col gap-4 py-4 sm:max-h-[400px] max-h-[300px] overflow-y-scroll">
+          {comments.length > 0 &&
+            comments.map((comment, i) => <Comment key={i} comment={comment} />)}
         </div>
         <DialogFooter className="block">
           <div className="flex flex-col">
             <div className="flex">
               <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
+                <AvatarImage src={myData?.image} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <Textarea

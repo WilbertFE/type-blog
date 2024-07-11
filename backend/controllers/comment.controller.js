@@ -3,9 +3,14 @@ import { Comment } from "../models/comment.model.js";
 const createComment = async (req, res) => {
   try {
     const { blogID, content } = req.body;
-    const { _id } = req.user;
-    await Comment.create({ content, blogID, creatorID: _id });
-    res.sendStatus(201);
+    const { username, image } = req.user;
+    const newComment = await Comment.create({
+      content,
+      blogID,
+      creator: username,
+      image,
+    });
+    res.status(201).json(newComment);
   } catch (err) {
     console.error(err.message);
     res.sendStatus(500);
