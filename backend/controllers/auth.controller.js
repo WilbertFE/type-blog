@@ -137,7 +137,6 @@ const googleAuth = async (req, res, next) => {
         .json({ data: newUser });
     }
   } catch (err) {
-    console.error(err.message);
     next(err);
   }
 };
