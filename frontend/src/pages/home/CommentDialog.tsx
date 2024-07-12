@@ -59,6 +59,7 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
         }
       );
       setComments((prevState) => [...prevState, result.data]);
+      setContent("");
     } catch (err) {
       console.error(err);
     }
@@ -66,7 +67,7 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex cursor-pointer gap-x-1">
+        <div className="flex items-center cursor-pointer gap-x-1">
           <MessageSquare />
           <span>0</span>
         </div>
@@ -90,6 +91,7 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
                 placeholder="Add a comment"
                 rows={1}
                 onFocus={() => setIsComment(true)}
+                value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className="border-t-0 border-b min-h-8 border-x-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:border-x-0 focus-visible:border-t-0 focus-visible:ring-offset-0"
               />

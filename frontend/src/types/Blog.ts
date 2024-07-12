@@ -4,5 +4,6 @@ export interface BlogInterface {
   googleId: string;
   _id: string;
   description: string;
-  creator: string;
+  authorID: string;
+  likes: number;
 }

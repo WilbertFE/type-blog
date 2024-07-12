@@ -56,6 +56,6 @@ route.put(
 
 route.get("/me", isLoggedIn, getMyData);
 
-route.get("/:username", getUser);
+route.get("/:userID", getUser);
 
 export const userRoute = route;

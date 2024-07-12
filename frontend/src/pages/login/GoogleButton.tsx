@@ -28,9 +28,7 @@ export function GoogleButton() {
           },
         }
       );
-      if (res.status !== 200) {
-        throw new Error();
-      }
+      console.log("res", res);
       return navigate("/");
     } catch (error) {
       console.error(error);

@@ -10,12 +10,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
 import { BlogInterface } from "@/types";
-import { ThumbsUp } from "lucide-react";
 import { CommentDialog } from "./CommentDialog";
+import { Toggle } from "@/components/ui/toggle";
+import { ThumbsUp } from "lucide-react";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
-  const { user } = useUser(blog.creator);
+  const { user } = useUser(blog.authorID);
 
   return (
     <>
@@ -47,8 +48,10 @@ export function Blog(props: { blog: BlogInterface }) {
           <CardFooter>
             <div>
               <div className="flex mb-2 gap-x-4">
-                <div className="flex cursor-pointer gap-x-1">
-                  <ThumbsUp />
+                <div className="flex items-center cursor-pointer gap-x-1">
+                  <Toggle aria-label="Toggle bold">
+                    <ThumbsUp />
+                  </Toggle>
                   <span>0</span>
                 </div>
                 <CommentDialog blog={blog} />

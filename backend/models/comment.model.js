@@ -6,7 +6,7 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    creator: {
+    authorID: {
       type: String,
       required: true,
     },
@@ -21,10 +21,6 @@ const commentSchema = new mongoose.Schema(
     disLikes: {
       type: Number,
       default: 0,
-    },
-    image: {
-      type: String,
-      require: true,
     },
   },
   {

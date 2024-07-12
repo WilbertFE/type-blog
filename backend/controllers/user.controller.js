@@ -5,8 +5,8 @@ const getMyData = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const username = req.params.username;
-  const user = await User.findOne({ username });
+  const { userID } = req.params;
+  const user = await User.findById(userID);
 
   if (!user) {
     return res.sendStatus(404);

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { UserInterface } from "@/types";
 import axios from "axios";
 
-export const useUser = (username: string | undefined) => {
+export const useUser = (userID: string | undefined) => {
   const [user, setUser] = useState<null | UserInterface>(null);
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:6005/api/users/${username}`,
+        `http://localhost:6005/api/users/${userID}`,
         { withCredentials: true }
       );
       const result = response.data;
@@ -22,13 +22,13 @@ export const useUser = (username: string | undefined) => {
   };
 
   useEffect(() => {
-    if (username) {
+    if (userID) {
       setLoading(true);
       getUser();
     } else {
       setLoading(false);
     }
-  }, [username]);
+  }, [userID]);
 
   return { user, loading };
 };

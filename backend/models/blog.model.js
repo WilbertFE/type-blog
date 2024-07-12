@@ -2,15 +2,24 @@ import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema(
   {
-    title: String,
+    title: {
+      type: String,
+      required: true,
+    },
     description: String,
-    content: String,
-    creator: String,
+    content: {
+      type: String,
+      required: true,
+    },
+    authorID: {
+      type: String,
+      required: true,
+    },
     likes: {
       type: Number,
       default: 0,
     },
-    disLike: {
+    disLikes: {
       type: Number,
       default: 0,
     },
