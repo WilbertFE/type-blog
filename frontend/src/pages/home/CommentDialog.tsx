@@ -16,10 +16,12 @@ import { BlogInterface } from "@/types";
 import { Comment } from "./Comment";
 import { CommentInterface } from "@/types/Comment";
 import { UseMeContext } from "@/contexts/useMe.context";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function CommentDialog({ blog }: { blog: BlogInterface }) {
   const [isComment, setIsComment] = useState(false);
   const [content, setContent] = useState("");
+
   const [comments, setComments] = useState<[] | CommentInterface[]>([]);
   const { myData } = useContext(UseMeContext);
 
@@ -64,22 +66,28 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
       console.error(err);
     }
   };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex items-center cursor-pointer gap-x-1">
           <MessageSquare />
-          <span>0</span>
+          <span>{comments.length}</span>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-xl">
+      <DialogContent
+        className="sm:max-w-xl"
+        aria-describedby="dialog-description"
+      >
         <DialogHeader>
           <DialogTitle>Comments {comments.length}</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4 py-4 sm:max-h-[400px] max-h-[300px] overflow-y-scroll">
+        <ScrollArea className="flex flex-col gap-4 py-4 sm:max-h-[400px] max-h-[300px]">
           {comments.length > 0 &&
-            comments.map((comment, i) => <Comment key={i} comment={comment} />)}
-        </div>
+            comments.map((comment, i) => (
+              <Comment setComments={setComments} key={i} comment={comment} />
+            ))}
+        </ScrollArea>
         <DialogFooter className="block">
           <div className="flex flex-col">
             <div className="flex">
@@ -106,6 +114,9 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
             )}
           </div>
         </DialogFooter>
+        <div id="dialog-description" className="sr-only">
+          This dialog allows users to view and add comments to the blog post.
+        </div>
       </DialogContent>
     </Dialog>
   );

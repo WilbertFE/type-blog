@@ -1,63 +1,121 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CommentInterface } from "@/types/Comment";
-import { ChevronDown, Flag, ThumbsDown, ThumbsUp, Trash2 } from "lucide-react";
+import { ChevronDown, ThumbsDown, ThumbsUp, Trash2 } from "lucide-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
 import { UseMeContext } from "@/contexts/useMe.context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useUser } from "@/hooks/useUser";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import axios from "axios";
 
-export function Comment({ comment }: { comment: CommentInterface }) {
+export function Comment({
+  comment,
+  setComments,
+}: {
+  comment: CommentInterface;
+  setComments: React.Dispatch<React.SetStateAction<[] | CommentInterface[]>>;
+}) {
   const { myData } = useContext(UseMeContext);
+  const { user } = useUser(comment.userID);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const handleDeleteComment = async () => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:6005/api/comments/${comment._id}`
+      );
+      setComments((prevState) =>
+        prevState.filter((comment) => comment._id !== result.data)
+      );
+      setDialogOpen(false);
+    } catch (err) {
+      console.error(err);
+      setDialogOpen(false);
+    }
+  };
+
   return (
-    <div className="flex gap-x-4">
-      <Avatar>
-        <AvatarImage src={comment.image} alt={comment.creator} />
-        <AvatarFallback>TB</AvatarFallback>
-      </Avatar>
-      <div className="flex flex-col flex-1">
-        <h3>@{comment.creator}</h3>
-        <p className="break-all">{comment.content}</p>
-        <div className="flex mt-2 gap-x-3">
-          <div className="flex gap-x-1">
-            <ThumbsUp strokeWidth={1} />
-            <span>{comment.likes}</span>
-          </div>
-          <div className="flex gap-x-1">
-            <ThumbsDown strokeWidth={1} />
-            <span>{comment.disLikes}</span>
-          </div>
-        </div>
-        <div className="flex items-center self-start mt-2 cursor-pointer">
-          <ChevronDown className="text-blue-600" />
-          <span className="font-medium text-blue-600">0 replies</span>
-        </div>
-      </div>
-      <Select>
-        <SelectTrigger className="self-start">
-          <BsThreeDotsVertical size={30} />
-        </SelectTrigger>
-        <SelectContent>
-          {myData?.username === comment.creator && (
-            <SelectItem className="px-0" value="delete">
-              <div className="flex items-center justify-around gap-x-2">
-                <Trash2 />
-                <span className="text-lg">Delete</span>
+    <>
+      {user && (
+        <div className="flex gap-x-4">
+          <Avatar>
+            <AvatarImage src={user?.image} alt={user?.username} />
+            <AvatarFallback>TB</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col flex-1">
+            <h3>@{user?.username}</h3>
+            <p className="break-all">{comment.content}</p>
+            <div className="flex mt-2 gap-x-3">
+              <div className="flex gap-x-1">
+                <ThumbsUp strokeWidth={1} />
+                <span>{comment.likes}</span>
               </div>
-            </SelectItem>
-          )}
-          <SelectItem className="px-0" value="report">
-            <div className="flex items-center justify-around gap-x-2">
-              <Flag />
-              <span className="text-lg">Report</span>
+              <div className="flex gap-x-1">
+                <ThumbsDown strokeWidth={1} />
+                <span>{comment.disLikes}</span>
+              </div>
             </div>
-          </SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
+            <div className="flex items-center self-start mt-2 cursor-pointer">
+              <ChevronDown className="text-blue-600" />
+              <span className="font-medium text-blue-600">0 replies</span>
+            </div>
+          </div>
+          {myData?.username === user?.username && (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <BsThreeDotsVertical className="mr-2" size={30} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setDialogOpen(true)}>
+                    <div className="flex items-center justify-around gap-x-2">
+                      <Trash2 />
+                      <span className="text-lg">Delete</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <AlertDialog defaultOpen={false} open={dialogOpen}>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your comment and remove your data from our databases.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel onClick={() => setDialogOpen(false)}>
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeleteComment}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
+          )}
+        </div>
+      )}
+    </>
   );
 }

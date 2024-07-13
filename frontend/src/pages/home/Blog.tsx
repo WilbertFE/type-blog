@@ -16,7 +16,7 @@ import { ThumbsUp } from "lucide-react";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
-  const { user } = useUser(blog.authorID);
+  const { user } = useUser(blog.userID);
 
   return (
     <>
