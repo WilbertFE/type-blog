@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export function Comment({
   comment,
@@ -53,12 +54,16 @@ export function Comment({
     <>
       {user && (
         <div className="flex gap-x-4">
-          <Avatar>
-            <AvatarImage src={user?.image} alt={user?.username} />
-            <AvatarFallback>TB</AvatarFallback>
-          </Avatar>
+          <Link to={`/user${user.username}`}>
+            <Avatar>
+              <AvatarImage src={user.image} alt={user.username} />
+              <AvatarFallback>TB</AvatarFallback>
+            </Avatar>
+          </Link>
           <div className="flex flex-col flex-1">
-            <h3>@{user?.username}</h3>
+            <Link to={`/user/${user.username}`} className="self-start">
+              <h3>@{user.username}</h3>
+            </Link>
             <p className="break-all">{comment.content}</p>
             <div className="flex mt-2 gap-x-3">
               <div className="flex gap-x-1">

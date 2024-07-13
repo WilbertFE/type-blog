@@ -11,8 +11,7 @@ import { useUser } from "@/hooks/useUser";
 import { Link } from "react-router-dom";
 import { BlogInterface } from "@/types";
 import { CommentDialog } from "./CommentDialog";
-import { Toggle } from "@/components/ui/toggle";
-import { ThumbsUp } from "lucide-react";
+import { LikeButton } from "./LikeButton";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
@@ -48,12 +47,7 @@ export function Blog(props: { blog: BlogInterface }) {
           <CardFooter>
             <div>
               <div className="flex mb-2 gap-x-4">
-                <div className="flex items-center cursor-pointer gap-x-1">
-                  <Toggle aria-label="Toggle bold">
-                    <ThumbsUp />
-                  </Toggle>
-                  <span>0</span>
-                </div>
+                <LikeButton />
                 <CommentDialog blog={blog} />
               </div>
               <p className="text-sm text-slate-400">
