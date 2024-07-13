@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createComment,
+  deleteComment,
   getAllComments,
 } from "../controllers/comment.controller.js";
 import { isLoggedIn } from "../controllers/auth.controller.js";
@@ -32,5 +33,7 @@ route.post(
 );
 
 route.get("/:blogID", getAllComments);
+
+route.delete("/:commentID", deleteComment);
 
 export const commentRoute = route;

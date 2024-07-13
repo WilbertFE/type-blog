@@ -8,7 +8,7 @@ const createBlog = async (req, res) => {
     title,
     description,
     content,
-    authorID: _id,
+    userID: _id,
   });
 
   res.status(201).json(blog);
