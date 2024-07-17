@@ -7,6 +7,7 @@ import { connectDB } from "./database/connection.js";
 import { blogRoute } from "./routes/blog.route.js";
 import { authRoute } from "./routes/auth.route.js";
 import { commentRoute } from "./routes/comment.route.js";
+import { likeRoute } from "./routes/like.route.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/api/users", userRoute);
 app.use("/api/blogs", blogRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/comments", commentRoute);
+app.use("/api/likes", likeRoute);
 
 app.listen(port, () => {
   console.log(`Your application is listening on http://localhost:${port}`);

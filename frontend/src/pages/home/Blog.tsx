@@ -47,7 +47,7 @@ export function Blog(props: { blog: BlogInterface }) {
           <CardFooter>
             <div>
               <div className="flex mb-2 gap-x-4">
-                <LikeButton />
+                <LikeButton blog={blog} />
                 <CommentDialog blog={blog} />
               </div>
               <p className="text-sm text-slate-400">

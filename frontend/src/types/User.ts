@@ -5,4 +5,5 @@ export type UserInterface = {
   username: string;
   createdAt?: string;
   updatedAt?: string;
+  _id: string;
 };
