@@ -24,13 +24,13 @@ import { Label } from "@/components/ui/label";
 import { useContext, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { ExpressValidationError } from "@/types/ExpressValidationError";
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 export function SettingOptions() {
   const navigate = useNavigate();
-  const { myData, setMyData } = useContext(UseMeContext);
+  const { myData, setMyData } = useContext(MyDataContext);
   const [name, setName] = useState(myData?.displayName);
   const [username, setUsername] = useState(myData?.username);
 

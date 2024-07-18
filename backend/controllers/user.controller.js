@@ -1,7 +1,26 @@
 import { User } from "../models/user.model.js";
 
 const getMyData = async (req, res) => {
-  res.status(200).json(req.user);
+  try {
+    const userID = req.user;
+    const userDoc = await User.findById(userID);
+
+    if (!userDoc) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    const user = userDoc.toObject();
+
+    delete user.refreshToken;
+    delete user.createdAt;
+    delete user.updatedAt;
+    delete user.__v;
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
 };
 
 const getUser = async (req, res) => {

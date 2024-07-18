@@ -8,8 +8,7 @@ import { Login } from "./pages/Login.tsx";
 import { Create } from "./pages/Create.tsx";
 import { Profile } from "./pages/Profile.tsx";
 import { Settings } from "./pages/Settings.tsx";
-import { UseMeContextProvider } from "./contexts/useMe.context.tsx";
-import { UseLoginContextProvider } from "./contexts/useLogin.context.tsx";
+import { MyDataContextProvider } from "./contexts/useMe.context.tsx";
 import { UpdateBlog } from "./pages/UpdateBlog.tsx";
 
 const router = createBrowserRouter([
@@ -78,10 +77,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <UseLoginContextProvider>
-      <UseMeContextProvider>
-        <RouterProvider router={router} />
-      </UseMeContextProvider>
-    </UseLoginContextProvider>
+    <MyDataContextProvider>
+      <RouterProvider router={router} />
+    </MyDataContextProvider>
   </React.StrictMode>
 );

@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useBlogs = () => {
   const [blogs, setBlogs] = useState<null | BlogInterface[]>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getBlogs = async () => {
     try {
@@ -12,10 +12,10 @@ export const useBlogs = () => {
       const result = response.data;
       setBlogs(result);
 
-      setLoading(false);
+      setIsLoading(false);
     } catch (err: unknown) {
       console.error("Failed to get blogs data");
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -23,5 +23,5 @@ export const useBlogs = () => {
     getBlogs();
   }, []);
 
-  return { blogs, loading, setLoading };
+  return { blogs, isLoading, setIsLoading };
 };

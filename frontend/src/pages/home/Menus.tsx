@@ -1,10 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export function Menus() {
-  const { myData } = useContext(UseMeContext);
+  const { myData } = useContext(MyDataContext);
   return (
     <div className="flex justify-between mt-8">
       <Link to="/create">

@@ -3,12 +3,12 @@ import { ThumbsUp } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { BlogInterface, LikeType } from "@/types";
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 
 export function LikeButton({ blog }: { blog: BlogInterface }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
-  const { myData } = useContext(UseMeContext);
+  const { myData } = useContext(MyDataContext);
 
   const getAllLikes = async () => {
     try {
@@ -49,14 +49,17 @@ export function LikeButton({ blog }: { blog: BlogInterface }) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const result = await axios.post(
           `http://localhost:6005/api/likes/${blog._id}`,
+          JSON.stringify({}),
           { withCredentials: true }
         );
+        setLikes((prevState) => prevState + 1);
         setIsLiked(true);
       } else {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const result = await axios.delete("http://localhost:6005/api/likes", {
+        const result = await axios.delete(`http://localhost:6005/api/likes`, {
           withCredentials: true,
         });
+        setLikes((prevState) => prevState - 1);
         setIsLiked(false);
       }
     } catch (err) {

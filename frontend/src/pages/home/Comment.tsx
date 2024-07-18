@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CommentInterface } from "@/types/Comment";
 import { ChevronDown, ThumbsDown, ThumbsUp, Trash2 } from "lucide-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 import { useContext, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import {
@@ -31,7 +31,7 @@ export function Comment({
   comment: CommentInterface;
   setComments: React.Dispatch<React.SetStateAction<[] | CommentInterface[]>>;
 }) {
-  const { myData } = useContext(UseMeContext);
+  const { myData } = useContext(MyDataContext);
   const { user } = useUser(comment.userID);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 

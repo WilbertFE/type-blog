@@ -1,10 +1,10 @@
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 import { ChevronLeft, Search } from "lucide-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export function Header() {
-  const { myData } = useContext(UseMeContext);
+  const { myData } = useContext(MyDataContext);
   return (
     <div className="flex flex-col">
       <div className="flex justify-between">

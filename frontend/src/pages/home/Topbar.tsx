@@ -1,10 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 import { Bell } from "lucide-react";
 import { useContext } from "react";
 
 export function Topbar() {
-  const { myData } = useContext(UseMeContext);
+  const { myData } = useContext(MyDataContext);
   return (
     <div className="flex items-center justify-between mt-12">
       <div className="flex flex-1 gap-x-2">

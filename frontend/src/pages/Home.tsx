@@ -8,17 +8,15 @@ import { useMe } from "@/hooks/UseMe";
 import { TopbarSkeleton } from "./home/skeleton/TopbarSkeleton";
 import { SearchbarSkeleton } from "./home/skeleton/SearchbarSkeleton";
 import { MenusSkeleton } from "./home/skeleton/MenusSkeleton";
-import { useBlogs } from "@/hooks/useBlogs";
 import { BlogSkeleton } from "./home/skeleton/BlogSkeleton";
 
 export function Home() {
-  const { myData, loading } = useMe();
-  const { blogs, loading: blogsLoading } = useBlogs();
+  const { myData, isLoading } = useMe();
   return (
     <main id="home" className="pb-32 bg-primary-config">
       <div className="container">
         <div className="flex flex-col min-h-screen">
-          {loading && blogsLoading && (
+          {isLoading && (
             <>
               <TopbarSkeleton />
               <SearchbarSkeleton />
@@ -35,15 +33,15 @@ export function Home() {
               </div>
             </>
           )}
-          {myData && !loading && !blogsLoading && blogs && (
+          {myData && !isLoading && (
             <>
               <Topbar />
               <Searchbar />
               <Menus />
-              <Blogs blogs={blogs} />
+              <Blogs />
             </>
           )}
-          {!myData && !loading && !blogsLoading && (
+          {!myData && !isLoading && (
             <>
               <SignInBar />
               <Description />

@@ -7,13 +7,22 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ChevronLeft, CircleAlert } from "lucide-react";
-import { useLogin } from "@/hooks/useLogin";
 import { ExpressValidationError } from "@/types/ExpressValidationError";
+import { useMe } from "@/hooks/UseMe";
 
 export function Create() {
   const navigate = useNavigate();
-  const { login, loading } = useLogin();
   const [errors, setErrors] = useState<null | ExpressValidationError[]>(null);
+  const { myData, isLoading } = useMe();
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (!myData) {
+        navigate("/login");
+      }
+    }
+  }, [myData, isLoading, navigate]);
+
   const handleCreateBlog = async (e: React.FormEvent<HTMLFormElement>) => {
     const result = await createBlog(e);
     if (result.response) {
@@ -24,12 +33,6 @@ export function Create() {
     }
     navigate("/");
   };
-
-  useEffect(() => {
-    if (!login && !loading) {
-      navigate("/login");
-    }
-  }, [login, navigate, loading]);
 
   return (
     <main id="create" className="bg-primary-config">

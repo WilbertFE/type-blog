@@ -22,4 +22,18 @@ const createLike = async (req, res) => {
   }
 };
 
-export { getLike, createLike };
+const deleteLike = async (req, res) => {
+  try {
+    const { _id: userID } = req.user;
+    if (!userID) {
+      return res.sendStatus(400);
+    }
+    await Like.deleteOne({ userID });
+    res.sendStatus(204);
+  } catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
+};
+
+export { getLike, createLike, deleteLike };

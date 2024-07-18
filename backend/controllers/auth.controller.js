@@ -6,12 +6,22 @@ const isLoggedIn = async (req, res, next) => {
     const accessToken = req.cookies.access_token;
     const refreshToken = req.cookies.refresh_token;
 
+    // if no access token
     if (!accessToken) {
       if (!refreshToken) {
         return res.sendStatus(401);
       }
-      const refreshPayload = jwt.verify(refreshToken, process.env.JWT_SECRET);
-      if (!refreshPayload.id) {
+      const refreshPayload = jwt.verify(
+        refreshToken,
+        process.env.JWT_SECRET,
+        (err, decoded) => {
+          if (err) {
+            return null;
+          }
+          return decoded;
+        }
+      );
+      if (!refreshPayload) {
         return res.sendStatus(403);
       }
       const { id } = refreshPayload;
@@ -26,16 +36,17 @@ const isLoggedIn = async (req, res, next) => {
       res.cookie("access_token", newAccessToken, {
         httpOnly: true,
       });
-      req.user = user;
+      req.user = user.id;
       return next();
     }
 
+    // if access token is exists
     const payload = jwt.verify(
       accessToken,
       process.env.JWT_SECRET,
       (err, decoded) => {
         if (err) {
-          return;
+          return null;
         }
         return decoded;
       }
@@ -50,7 +61,7 @@ const isLoggedIn = async (req, res, next) => {
         process.env.JWT_SECRET,
         (err, decoded) => {
           if (err) {
-            return;
+            return null;
           }
           return decoded;
         }
@@ -68,6 +79,7 @@ const isLoggedIn = async (req, res, next) => {
       if (user.refreshToken !== refreshToken) {
         return res.sendStatus(403);
       }
+
       const newAccessToken = genAccessToken(user._id);
       res.cookie("access_token", newAccessToken, {
         httpOnly: true,
@@ -81,21 +93,23 @@ const isLoggedIn = async (req, res, next) => {
     if (!user) {
       return res.sendStatus(403);
     }
-    req.user = user;
+    req.user = user.id;
     next();
   } catch (err) {
     console.error(err);
-    res.status(500);
+    res.sendStatus(500);
   }
 };
 
-const googleAuth = async (req, res, next) => {
+const googleAuth = async (req, res) => {
   const { displayName, email, image } = req.body;
   try {
     const user = await User.findOne({ email }).collation({
       locale: "en",
       strength: 2,
     });
+
+    // if user already exists
     if (user) {
       const accessToken = genAccessToken(user._id);
       const refreshToken = genRefreshToken(user._id);
@@ -112,6 +126,7 @@ const googleAuth = async (req, res, next) => {
         })
         .json({ data: user });
     } else {
+      // if user not exists
       const newUser = await User.create({
         username:
           displayName.toLowerCase().split(" ").join("_") +
@@ -137,7 +152,8 @@ const googleAuth = async (req, res, next) => {
         .json({ data: newUser });
     }
   } catch (err) {
-    next(err);
+    console.error(err.message);
+    res.sendStatus(500);
   }
 };
 

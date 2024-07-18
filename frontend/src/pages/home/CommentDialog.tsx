@@ -15,7 +15,7 @@ import { useContext, useEffect, useState } from "react";
 import { BlogInterface } from "@/types";
 import { Comment } from "./Comment";
 import { CommentInterface } from "@/types/Comment";
-import { UseMeContext } from "@/contexts/useMe.context";
+import { MyDataContext } from "@/contexts/useMe.context";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function CommentDialog({ blog }: { blog: BlogInterface }) {
@@ -23,7 +23,7 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
   const [content, setContent] = useState("");
 
   const [comments, setComments] = useState<[] | CommentInterface[]>([]);
-  const { myData } = useContext(UseMeContext);
+  const { myData } = useContext(MyDataContext);
 
   const getAllComments = async () => {
     try {

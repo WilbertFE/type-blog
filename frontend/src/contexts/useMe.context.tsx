@@ -2,18 +2,18 @@ import { ReactNode, createContext, useState } from "react";
 import { UseMeState } from "@/types";
 import { UserInterface } from "@/types";
 
-const UseMeContext = createContext<UseMeState>({
+const MyDataContext = createContext<UseMeState>({
   myData: null,
   setMyData: () => {},
 });
 
-const UseMeContextProvider = ({ children }: { children: ReactNode }) => {
+const MyDataContextProvider = ({ children }: { children: ReactNode }) => {
   const [myData, setMyData] = useState<null | UserInterface>(null);
   return (
-    <UseMeContext.Provider value={{ myData, setMyData }}>
+    <MyDataContext.Provider value={{ myData, setMyData }}>
       {children}
-    </UseMeContext.Provider>
+    </MyDataContext.Provider>
   );
 };
 
-export { UseMeContext, UseMeContextProvider };
+export { MyDataContext, MyDataContextProvider };

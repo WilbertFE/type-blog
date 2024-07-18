@@ -1,34 +1,37 @@
 import { useContext, useEffect, useState } from "react";
 import { UseMeState } from "@/types";
 import axios from "axios";
-import { UseMeContext } from "@/contexts/useMe.context.tsx";
+import { MyDataContext } from "@/contexts/useMe.context.tsx";
 
 export const useMe = () => {
-  const { myData, setMyData } = useContext<UseMeState>(UseMeContext);
-  const [loading, setLoading] = useState(true);
+  const { myData, setMyData } = useContext<UseMeState>(MyDataContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getUserData = async () => {
     try {
       const response = await axios.get("http://localhost:6005/api/users/me", {
         withCredentials: true,
       });
-
       const result = response.data;
-      setMyData(result);
-      setLoading(false);
+      if (result) {
+        setMyData(result);
+        setIsLoading(false);
+      } else {
+        throw new Error();
+      }
     } catch (err: unknown) {
-      setLoading(false);
+      setIsLoading(false);
       console.error("Failed to get my data");
     }
   };
 
   useEffect(() => {
     if (myData) {
-      setLoading(false);
+      setIsLoading(false);
     } else {
       getUserData();
     }
   }, [myData]);
 
-  return { myData, loading, setMyData };
+  return { myData, isLoading, setMyData };
 };
