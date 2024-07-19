@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CommentInterface } from "@/types/Comment";
-import { ChevronDown, ThumbsDown, ThumbsUp, Trash2 } from "lucide-react";
+import { ChevronDown, ThumbsUp, Trash2 } from "lucide-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MyDataContext } from "@/contexts/useMe.context";
 import { useContext, useState } from "react";
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 export function Comment({
   comment,
@@ -70,10 +71,9 @@ export function Comment({
                 <ThumbsUp strokeWidth={1} />
                 <span>{comment.likes}</span>
               </div>
-              <div className="flex gap-x-1">
-                <ThumbsDown strokeWidth={1} />
-                <span>{comment.disLikes}</span>
-              </div>
+              <Badge variant="outline" className="cursor-pointer">
+                Reply
+              </Badge>
             </div>
             <div className="flex items-center self-start mt-2 cursor-pointer">
               <ChevronDown className="text-blue-600" />
@@ -83,7 +83,7 @@ export function Comment({
           {myData?.username === user?.username && (
             <>
               <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger className="self-start">
                   <BsThreeDotsVertical className="mr-2" size={30} />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>

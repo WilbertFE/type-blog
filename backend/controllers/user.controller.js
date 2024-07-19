@@ -42,4 +42,18 @@ const updateUser = async (req, res) => {
   }
 };
 
-export { getMyData, getUser, updateUser };
+const getUserByUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(500);
+  }
+};
+
+export { getMyData, getUser, updateUser, getUserByUsername };

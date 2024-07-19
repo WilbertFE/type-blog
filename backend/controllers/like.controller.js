@@ -13,7 +13,7 @@ const getLike = async (req, res) => {
 const createLike = async (req, res) => {
   try {
     const { blogID } = req.params;
-    const { _id } = req.user;
+    const _id = req.user;
     const likes = await Like.create({ blogID, userID: _id });
     res.sendStatus(201);
   } catch (err) {
@@ -24,11 +24,11 @@ const createLike = async (req, res) => {
 
 const deleteLike = async (req, res) => {
   try {
-    const { _id: userID } = req.user;
-    if (!userID) {
+    const _id = req.user;
+    if (!_id) {
       return res.sendStatus(400);
     }
-    await Like.deleteOne({ userID });
+    await Like.deleteOne({ userID: _id });
     res.sendStatus(204);
   } catch (err) {
     console.error(err.message);

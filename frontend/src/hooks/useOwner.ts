@@ -6,21 +6,21 @@ export function useOwner(
   myData: UserInterface | null
 ) {
   const [owner, setOwner] = useState(false);
-  const [loadingOwner, setLoadingOwner] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (username && myData) {
-      setLoadingOwner(true);
+      setIsLoading(true);
       if (username === myData.username) {
         setOwner(true);
-        setLoadingOwner(false);
+        setIsLoading(false);
       } else {
-        setLoadingOwner(false);
+        setIsLoading(false);
       }
     } else {
-      setLoadingOwner(false);
+      setIsLoading(false);
     }
   }, [username, myData]);
 
-  return { owner, loadingOwner };
+  return { owner, isLoading };
 }

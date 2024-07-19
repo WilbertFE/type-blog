@@ -1,4 +1,5 @@
 import { Blog } from "../models/blog.model.js";
+import { User } from "../models/user.model.js";
 
 const createBlog = async (req, res) => {
   const { title, description, content } = req.body;
@@ -20,12 +21,26 @@ const getAllBlogs = async (req, res) => {
 };
 
 const getUserBlogs = async (req, res) => {
-  const { username } = req.params;
-  const blogs = await Blog.find({ creator: username });
-  if (!blogs) {
-    return res.status(404).json({ errors: [{ msg: "Couldnt find the blog" }] });
+  try {
+    const { username } = req.params;
+    const user = await User.find({ username });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    const blogs = await Blog.find({ userID: user._id });
+
+    if (!blogs) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: "User blogs not found" }] });
+    }
+    res.status(200).json(blogs);
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(500);
   }
-  res.status(200).json(blogs);
 };
 
 const getBlog = async (req, res) => {

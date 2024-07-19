@@ -2,6 +2,7 @@ import express from "express";
 import {
   getMyData,
   getUser,
+  getUserByUsername,
   updateUser,
 } from "../controllers/user.controller.js";
 import { isLoggedIn } from "../controllers/auth.controller.js";
@@ -55,6 +56,8 @@ route.put(
 );
 
 route.get("/me", isLoggedIn, getMyData);
+
+route.get("/user/:username", getUserByUsername);
 
 route.get("/:userID", getUser);
 

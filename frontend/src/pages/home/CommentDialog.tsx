@@ -11,37 +11,19 @@ import { MessageSquare } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { BlogInterface } from "@/types";
 import { Comment } from "./Comment";
-import { CommentInterface } from "@/types/Comment";
 import { MyDataContext } from "@/contexts/useMe.context";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useComments } from "@/hooks/useComments";
 
 export function CommentDialog({ blog }: { blog: BlogInterface }) {
   const [isComment, setIsComment] = useState(false);
   const [content, setContent] = useState("");
 
-  const [comments, setComments] = useState<[] | CommentInterface[]>([]);
   const { myData } = useContext(MyDataContext);
-
-  const getAllComments = async () => {
-    try {
-      const result = await axios.get(
-        `http://localhost:6005/api/comments/${blog._id}`,
-        {
-          withCredentials: true,
-        }
-      );
-      setComments(result.data);
-    } catch (err: unknown) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    getAllComments();
-  }, []);
+  const { comments, setComments } = useComments({ blog });
 
   const handleCancel = () => {
     setIsComment(false);
@@ -50,7 +32,7 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
 
   const handleComment = async () => {
     try {
-      const result = await axios.post(
+      const response = await axios.post(
         "http://localhost:6005/api/comments",
         JSON.stringify({ content, blogID: blog._id }),
         {
@@ -60,7 +42,10 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
           },
         }
       );
-      setComments((prevState) => [...prevState, result.data]);
+      if (!response.data) {
+        throw new Error();
+      }
+      setComments((prevState) => [...prevState, response.data]);
       setContent("");
     } catch (err) {
       console.error(err);

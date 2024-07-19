@@ -15,11 +15,11 @@ import { LikeButton } from "./LikeButton";
 
 export function Blog(props: { blog: BlogInterface }) {
   const { blog } = props;
-  const { user } = useUser(blog.userID);
+  const { user, isLoading } = useUser(blog.userID);
 
   return (
     <>
-      {user && (
+      {user && !isLoading && (
         <Card>
           <CardHeader>
             <div className="flex justify-between">

@@ -9,9 +9,11 @@ export const useBlogs = () => {
   const getBlogs = async () => {
     try {
       const response = await axios.get("http://localhost:6005/api/blogs");
+      if (!response.data) {
+        throw new Error();
+      }
       const result = response.data;
       setBlogs(result);
-
       setIsLoading(false);
     } catch (err: unknown) {
       console.error("Failed to get blogs data");

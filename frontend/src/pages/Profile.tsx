@@ -13,15 +13,15 @@ export function Profile() {
   const { username } = useParams();
 
   const { myData, setMyData } = useMe();
-  const { user, loading } = useUser(username);
+  const { user, isLoading } = useUser(username);
   const { blogs } = useUserBlogs(username);
-  const { owner, loadingOwner } = useOwner(username, myData);
+  const { owner, isLoading: loadingOwner } = useOwner(username, myData);
 
   return (
     <main id="profile" className="pb-12 bg-primary-config">
       <div className="container px-2">
         <div className="flex flex-col min-h-screen gap-y-4">
-          {user && !loading && blogs && myData && !loadingOwner && (
+          {user && !isLoading && blogs && myData && !loadingOwner && (
             <>
               <Banner
                 user={user}
@@ -41,7 +41,6 @@ export function Profile() {
                       <Blog
                         key={blog._id}
                         blog={blog}
-                        myData={myData}
                         user={user}
                         owner={owner}
                       />
@@ -51,7 +50,7 @@ export function Profile() {
               )}
             </>
           )}
-          {!user && !loading && !loadingOwner && (
+          {!user && !isLoading && !loadingOwner && (
             <div className="flex flex-col items-center m-auto">
               <TbError404 size={128} className="text-light-config" />
               <h1 className="text-xl font-bold tracking-wide text-light-config">

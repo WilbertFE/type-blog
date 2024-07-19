@@ -10,14 +10,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { BlogInterface, UserInterface } from "@/types";
 import { Heart, MessageSquare, Pencil } from "lucide-react";
+import { useContext } from "react";
+import { MyDataContext } from "@/contexts/useMe.context";
 
 export function Blog(props: {
   blog: BlogInterface;
   user: UserInterface;
   owner: boolean;
-  myData: UserInterface | null;
 }) {
-  const { blog, user, owner, myData } = props;
+  const { blog, user, owner } = props;
+  const { myData } = useContext(MyDataContext);
   return (
     <>
       <Card>

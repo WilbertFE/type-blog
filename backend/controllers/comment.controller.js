@@ -3,7 +3,7 @@ import { Comment } from "../models/comment.model.js";
 const createComment = async (req, res) => {
   try {
     const { blogID, content } = req.body;
-    const { _id } = req.user;
+    const _id = req.user;
     const newComment = await Comment.create({
       content,
       blogID,
