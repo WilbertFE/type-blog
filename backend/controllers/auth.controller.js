@@ -52,6 +52,7 @@ const isLoggedIn = async (req, res, next) => {
       }
     );
 
+    // invalid accessToken but valid refresh token
     if (!payload) {
       if (!refreshToken) {
         return res.sendStatus(403);
@@ -84,7 +85,7 @@ const isLoggedIn = async (req, res, next) => {
       res.cookie("access_token", newAccessToken, {
         httpOnly: true,
       });
-      req.user = user;
+      req.user = user.id;
       return next();
     }
 

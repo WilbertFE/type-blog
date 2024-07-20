@@ -1,4 +1,5 @@
 import { Comment } from "../models/comment.model.js";
+import { CommentLike } from "../models/commentLike.model.js";
 
 const createComment = async (req, res) => {
   try {
@@ -38,4 +39,58 @@ const deleteComment = async (req, res) => {
   }
 };
 
-export { createComment, getAllComments, deleteComment };
+const createCommentLike = async (req, res) => {
+  try {
+    const userID = req.user;
+    const { commentID } = req.body;
+
+    if (!userID || !commentID) {
+      return res.sendStatus(400);
+    }
+
+    const newCommentLike = await CommentLike.create({
+      userID,
+      commentID,
+    });
+
+    res.status(200).json(newCommentLike);
+  } catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
+};
+
+const deleteCommentLike = async (req, res) => {
+  try {
+    const userID = req.user;
+
+    if (!userID) {
+      return res.sendStatus(400);
+    }
+
+    await CommentLike.deleteOne({ userID });
+
+    res.sendStatus(204);
+  } catch (err) {
+    console.error(err.message);
+    res.sendStatus(500);
+  }
+};
+
+const getAllCommentLikes = async (req, res) => {
+  try {
+    const commentLikes = await CommentLike.find({});
+    res.status(200).json(commentLikes);
+  } catch (err) {
+    console.error(err.message);
+  }
+};
+
+export {
+  createComment,
+  getAllComments,
+  deleteComment,
+  createCommentLike,
+  deleteCommentLike,
+  getAllCommentLikes,
+};

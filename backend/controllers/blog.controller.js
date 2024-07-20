@@ -3,7 +3,7 @@ import { User } from "../models/user.model.js";
 
 const createBlog = async (req, res) => {
   const { title, description, content } = req.body;
-  const { _id } = req.user;
+  const _id = req.user;
 
   const blog = await Blog.create({
     title,

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CommentInterface } from "@/types/Comment";
 import { ChevronDown, ThumbsUp, Trash2 } from "lucide-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MyDataContext } from "@/contexts/useMe.context";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useUser } from "@/hooks/useUser";
 import {
   AlertDialog,
@@ -24,6 +25,7 @@ import {
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Toggle } from "@radix-ui/react-toggle";
 
 export function Comment({
   comment,
@@ -35,6 +37,9 @@ export function Comment({
   const { myData } = useContext(MyDataContext);
   const { user } = useUser(comment.userID);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleDeleteComment = async () => {
     try {
@@ -51,6 +56,60 @@ export function Comment({
     }
   };
 
+  const getAllCommentLikes = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:6005/api/comments/likes"
+      );
+      if (!response.data) {
+        throw new Error("Failed to get comment likes");
+      }
+      setLikes(response.data.length);
+      setIsLiked((prevLiked) => {
+        const isMatch = response.data.filter(
+          (like: { userID: string }) => like.userID === myData?._id
+        );
+        if (isMatch.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleLike = async () => {
+    if (!isLiked) {
+      const response = await axios.post(
+        "http://localhost:6005/api/comments/likes",
+        JSON.stringify({ commentID: comment._id }),
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setLikes((prevLike) => prevLike + 1);
+      setIsLiked(true);
+    } else {
+      const response = await axios.delete(
+        "http://localhost:6005/api/comments/like",
+        {
+          withCredentials: true,
+        }
+      );
+      setLikes((prevLike) => prevLike - 1);
+      setIsLiked(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllCommentLikes();
+  }, []);
+
   return (
     <>
       {user && (
@@ -66,10 +125,16 @@ export function Comment({
               <h3>@{user.username}</h3>
             </Link>
             <p className="break-all">{comment.content}</p>
-            <div className="flex mt-2 gap-x-3">
+            <div className="flex mt-3 gap-x-3">
               <div className="flex gap-x-1">
-                <ThumbsUp strokeWidth={1} />
-                <span>{comment.likes}</span>
+                <Toggle
+                  onClick={handleLike}
+                  aria-label="Toggle bold"
+                  pressed={isLiked}
+                >
+                  <ThumbsUp strokeWidth={1} />
+                </Toggle>
+                <span>{likes}</span>
               </div>
               <Badge variant="outline" className="cursor-pointer">
                 Reply

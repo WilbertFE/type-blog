@@ -6,7 +6,10 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: String,
+    description: {
+      type: String,
+      default: "",
+    },
     content: {
       type: String,
       required: true,
@@ -14,10 +17,6 @@ const blogSchema = new mongoose.Schema(
     userID: {
       type: String,
       required: true,
-    },
-    likes: {
-      type: Number,
-      default: 0,
     },
   },
   {

@@ -16,7 +16,7 @@ import { BlogInterface } from "@/types";
 import { Comment } from "./Comment";
 import { MyDataContext } from "@/contexts/useMe.context";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useComments } from "@/hooks/useComments";
+import { useComments } from "@/hooks/useComments.ts";
 
 export function CommentDialog({ blog }: { blog: BlogInterface }) {
   const [isComment, setIsComment] = useState(false);

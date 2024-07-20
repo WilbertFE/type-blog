@@ -1,7 +1,10 @@
 import express from "express";
 import {
   createComment,
+  createCommentLike,
   deleteComment,
+  deleteCommentLike,
+  getAllCommentLikes,
   getAllComments,
 } from "../controllers/comment.controller.js";
 import { isLoggedIn } from "../controllers/auth.controller.js";
@@ -35,5 +38,11 @@ route.post(
 route.get("/:blogID", getAllComments);
 
 route.delete("/:commentID", deleteComment);
+
+route.post("/likes", isLoggedIn, createCommentLike);
+
+route.delete("/likes", isLoggedIn, deleteCommentLike);
+
+route.get("/likes", getAllCommentLikes);
 
 export const commentRoute = route;
