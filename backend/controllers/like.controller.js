@@ -1,4 +1,6 @@
 import { Like } from "../models/like.model.js";
+import mongoose from "mongoose";
+const { ObjectID } = mongoose.Types;
 
 const getLike = async (req, res) => {
   try {
@@ -31,7 +33,7 @@ const deleteLike = async (req, res) => {
     await Like.deleteOne({ userID: _id });
     res.sendStatus(204);
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     res.sendStatus(500);
   }
 };

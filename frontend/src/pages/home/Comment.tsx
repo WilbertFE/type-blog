@@ -41,6 +41,8 @@ export function Comment({
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
+  console.log("isLiked : ", isLiked);
+
   const handleDeleteComment = async () => {
     try {
       const result = await axios.delete(
@@ -96,7 +98,7 @@ export function Comment({
       setIsLiked(true);
     } else {
       const response = await axios.delete(
-        "http://localhost:6005/api/comments/like",
+        "http://localhost:6005/api/comments/likes",
         {
           withCredentials: true,
         }
