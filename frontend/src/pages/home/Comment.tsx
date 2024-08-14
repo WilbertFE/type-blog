@@ -41,8 +41,6 @@ export function Comment({
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
 
-  console.log("isLiked : ", isLiked);
-
   const handleDeleteComment = async () => {
     try {
       const result = await axios.delete(
@@ -133,6 +131,7 @@ export function Comment({
                   onClick={handleLike}
                   aria-label="Toggle bold"
                   pressed={isLiked}
+                  defaultPressed={false}
                 >
                   <ThumbsUp strokeWidth={1} />
                 </Toggle>

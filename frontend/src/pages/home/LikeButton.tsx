@@ -36,7 +36,12 @@ export function LikeButton({ blog }: { blog: BlogInterface }) {
 
   return (
     <div className="flex items-center cursor-pointer gap-x-1">
-      <Toggle onClick={handleLike} aria-label="Toggle bold" pressed={isLiked}>
+      <Toggle
+        onClick={handleLike}
+        aria-label="Toggle bold"
+        defaultPressed={false}
+        pressed={isLiked}
+      >
         <ThumbsUp />
       </Toggle>
       <span>{likes}</span>

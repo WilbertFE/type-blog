@@ -12,6 +12,8 @@ import { body, validationResult } from "express-validator";
 
 const route = express.Router();
 
+route.get("/likes", getAllCommentLikes);
+
 route.post(
   "/",
   [
@@ -42,7 +44,5 @@ route.delete("/:commentID", deleteComment);
 route.post("/likes", isLoggedIn, createCommentLike);
 
 route.delete("/likes", isLoggedIn, deleteCommentLike);
-
-route.get("/likes", getAllCommentLikes);
 
 export const commentRoute = route;
