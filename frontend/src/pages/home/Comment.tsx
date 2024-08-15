@@ -96,7 +96,7 @@ export function Comment({
       setIsLiked(true);
     } else {
       const response = await axios.delete(
-        "http://localhost:6005/api/comments/likes",
+        `http://localhost:6005/api/comments/likes/${comment._id}`,
         {
           withCredentials: true,
         }

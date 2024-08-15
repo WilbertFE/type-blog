@@ -3,17 +3,17 @@ import { Banner } from "./profile/Banner";
 import { CallToAction } from "./profile/CallToAction";
 import { Bio } from "./profile/Bio";
 import { TbError404 } from "react-icons/tb";
-import { useUser } from "@/hooks/useUser";
 import { useUserBlogs } from "@/hooks/useUserBlogs";
 import { Blog } from "./profile/Blog";
 import { useMe } from "@/hooks/UseMe";
 import { useOwner } from "@/hooks/useOwner";
+import { useUserUsername } from "@/hooks/useUserUsername";
 
 export function Profile() {
   const { username } = useParams();
 
   const { myData, setMyData } = useMe();
-  const { user, isLoading } = useUser(username);
+  const { user, isLoading } = useUserUsername(username);
   const { blogs } = useUserBlogs(username);
   const { owner, isLoading: loadingOwner } = useOwner(username, myData);
 

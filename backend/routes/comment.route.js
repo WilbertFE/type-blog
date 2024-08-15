@@ -43,6 +43,6 @@ route.delete("/:commentID", deleteComment);
 
 route.post("/likes", isLoggedIn, createCommentLike);
 
-route.delete("/likes", isLoggedIn, deleteCommentLike);
+route.delete("/likes/:commentID", isLoggedIn, deleteCommentLike);
 
 export const commentRoute = route;

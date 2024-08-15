@@ -63,12 +63,13 @@ const createCommentLike = async (req, res) => {
 const deleteCommentLike = async (req, res) => {
   try {
     const userID = req.user;
+    const { commentID } = req.params;
 
     if (!userID) {
       return res.sendStatus(400);
     }
 
-    await CommentLike.deleteOne({ userID });
+    await CommentLike.deleteOne({ commentID });
 
     res.sendStatus(204);
   } catch (err) {

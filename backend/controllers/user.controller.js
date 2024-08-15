@@ -45,7 +45,10 @@ const updateUser = async (req, res) => {
 const getUserByUsername = async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).collation({
+      locale: "en",
+      strength: 2,
+    });
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
