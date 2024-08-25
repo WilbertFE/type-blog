@@ -29,7 +29,7 @@ const getUserBlogs = async (req, res) => {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    const blogs = await Blog.find({ userID: user._id });
+    const blogs = await Blog.find({ userID: user[0]._id });
 
     if (!blogs) {
       return res

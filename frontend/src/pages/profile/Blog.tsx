@@ -9,9 +9,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { BlogInterface, UserInterface } from "@/types";
-import { Heart, MessageSquare, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useContext } from "react";
 import { MyDataContext } from "@/contexts/useMe.context";
+import { LikeButton } from "../home/LikeButton";
+import { CommentDialog } from "../home/CommentDialog";
 
 export function Blog(props: {
   blog: BlogInterface;
@@ -54,14 +56,8 @@ export function Blog(props: {
         <CardFooter>
           <div>
             <div className="flex mb-2 gap-x-4">
-              <div className="flex gap-x-1">
-                <Heart />
-                <span>20</span>
-              </div>
-              <div className="flex gap-x-1">
-                <MessageSquare />
-                <span>5</span>
-              </div>
+              <LikeButton blog={blog} />
+              <CommentDialog blog={blog} />
             </div>
             <p className="text-sm text-slate-400">
               {new Date(user.updatedAt || "").toDateString()}

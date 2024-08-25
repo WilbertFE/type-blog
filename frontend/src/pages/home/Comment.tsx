@@ -131,6 +131,7 @@ export function Comment({
                   onClick={handleLike}
                   aria-label="Toggle bold"
                   pressed={isLiked}
+                  style={isLiked ? { color: "blue" } : { color: "black" }}
                   defaultPressed={false}
                 >
                   <ThumbsUp strokeWidth={1} />

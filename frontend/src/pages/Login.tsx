@@ -5,15 +5,15 @@ import { useMe } from "@/hooks/UseMe";
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { myData, loading } = useMe();
+  const { myData, isLoading } = useMe();
 
   useEffect(() => {
-    if (!loading) {
+    if (!isLoading) {
       if (myData) {
         navigate("/");
       }
     }
-  }, [navigate, myData, loading]);
+  }, [navigate, myData, isLoading]);
 
   return (
     <main id="login" className="bg-primary-config">
