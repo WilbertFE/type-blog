@@ -70,7 +70,12 @@ export function CommentDialog({ blog }: { blog: BlogInterface }) {
         <ScrollArea className="flex flex-col gap-4 py-4 sm:max-h-[400px] max-h-[300px]">
           {comments.length > 0 &&
             comments.map((comment, i) => (
-              <Comment setComments={setComments} key={i} comment={comment} />
+              <Comment
+                blog={blog}
+                setComments={setComments}
+                key={i}
+                comment={comment}
+              />
             ))}
         </ScrollArea>
         <DialogFooter className="block">

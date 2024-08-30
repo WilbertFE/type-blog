@@ -42,15 +42,16 @@ const deleteComment = async (req, res) => {
 const createCommentLike = async (req, res) => {
   try {
     const userID = req.user;
-    const { commentID } = req.body;
+    const { commentID, blogID } = req.body;
 
-    if (!userID || !commentID) {
+    if (!userID || !commentID || !blogID) {
       return res.sendStatus(400);
     }
 
     const newCommentLike = await CommentLike.create({
       userID,
       commentID,
+      blogID,
     });
 
     res.status(200).json(newCommentLike);

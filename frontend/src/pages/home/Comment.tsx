@@ -26,13 +26,16 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Toggle } from "@radix-ui/react-toggle";
+import { BlogInterface } from "@/types";
 
 export function Comment({
   comment,
   setComments,
+  blog,
 }: {
   comment: CommentInterface;
   setComments: React.Dispatch<React.SetStateAction<[] | CommentInterface[]>>;
+  blog: BlogInterface;
 }) {
   const { myData } = useContext(MyDataContext);
   const { user } = useUser(comment.userID);
@@ -84,7 +87,7 @@ export function Comment({
     if (!isLiked) {
       const response = await axios.post(
         "http://localhost:6005/api/comments/likes",
-        JSON.stringify({ commentID: comment._id }),
+        JSON.stringify({ commentID: comment._id, blogID: blog._id }),
         {
           withCredentials: true,
           headers: {
