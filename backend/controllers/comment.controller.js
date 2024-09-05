@@ -81,7 +81,8 @@ const deleteCommentLike = async (req, res) => {
 
 const getAllCommentLikes = async (req, res) => {
   try {
-    const commentLikes = await CommentLike.find({});
+    const { userID } = req.params;
+    const commentLikes = await CommentLike.find({ userID });
     res.status(200).json(commentLikes);
   } catch (err) {
     console.error(err.message);

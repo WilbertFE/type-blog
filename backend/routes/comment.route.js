@@ -12,7 +12,7 @@ import { body, validationResult } from "express-validator";
 
 const route = express.Router();
 
-route.get("/likes", getAllCommentLikes);
+route.get("/likes/:userID", getAllCommentLikes);
 
 route.post(
   "/",
